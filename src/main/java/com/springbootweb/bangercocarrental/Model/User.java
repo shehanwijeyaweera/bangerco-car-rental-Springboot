@@ -26,7 +26,8 @@ public class User {
 
     private int user_phoneNo;
     private String user_address;
-    private String documents;
+    private String document1;
+    private String document2;
     private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -38,7 +39,7 @@ public class User {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> userRole;
 
-    public User(String username, String password, String user_fName, String user_lName, String user_email, Date birthday, int user_phoneNo, String user_address, String documents, boolean enabled, Collection<Role> userRole) {
+    public User(String username, String password, String user_fName, String user_lName, String user_email, Date birthday, int user_phoneNo, String user_address, String document1, String document2, boolean enabled, Collection<Role> userRole) {
         this.username = username;
         this.password = password;
         this.user_fName = user_fName;
@@ -47,7 +48,8 @@ public class User {
         this.birthday = birthday;
         this.user_phoneNo = user_phoneNo;
         this.user_address = user_address;
-        this.documents = documents;
+        this.document1 = document1;
+        this.document2 = document2;
         this.enabled = enabled;
         this.userRole = userRole;
     }
@@ -127,13 +129,6 @@ public class User {
         this.user_address = user_address;
     }
 
-    public String getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(String documents) {
-        this.documents = documents;
-    }
 
     public boolean isEnabled() {
         return enabled;
@@ -149,5 +144,35 @@ public class User {
 
     public void setUserRole(Collection<Role> userRole) {
         this.userRole = userRole;
+    }
+
+    public String getDocument1() {
+        return document1;
+    }
+
+    public void setDocument1(String document1) {
+        this.document1 = document1;
+    }
+
+    public String getDocument2() {
+        return document2;
+    }
+
+    public void setDocument2(String document2) {
+        this.document2 = document2;
+    }
+
+    @Transient
+    public String getDrivingLicenceImagePath(){
+        if (document1 == null || id == null) return null;
+
+        return "/documents/" + id + "/" + document1;
+    }
+
+    @Transient
+    public String getTaxStatementImagePath(){
+        if (document2 == null || id == null) return null;
+
+        return "/documents/" + id + "/" + document2;
     }
 }

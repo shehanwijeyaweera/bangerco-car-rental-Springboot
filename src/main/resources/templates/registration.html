@@ -28,7 +28,7 @@
         <div class="card-body register-card-body">
             <p class="login-box-msg">Register a new membership</p>
 
-            <form th:action="@{/registration}" method="post" th:object="${user}">
+            <form th:action="@{/registration}" method="post" th:object="${user}" enctype="multipart/form-data">
                 <div th:if="${param.success}">
                     <div class="alert alert-info">
                         You've Successfully Registered!
@@ -83,11 +83,21 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Documents" th:field="*{documents}" required autofocus="autofocus">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="driverslicence" name="driverslicence" required autofocus="autofocus" accept="image/png, image/jpeg">
+                        <label class="custom-file-label" for="driverslicence">Driving Licence</label>
+                    </div>
                     <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-file-word"></span>
-                        </div>
+                        <span class="input-group-text" id="">Upload</span>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="taxstatement" name="taxstatement" required autofocus="autofocus" accept="image/png, image/jpeg">
+                        <label class="custom-file-label" for="taxstatement">Council Tax statement</label>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="">Upload</span>
                     </div>
                 </div>
                 <div class="input-group mb-3">
@@ -129,12 +139,38 @@
     </div><!-- /.card -->
 </div>
 <!-- /.register-box -->
-
 <!-- jQuery -->
-<script th:src="@{plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
 <!-- Bootstrap 4 -->
 <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <!-- AdminLTE App -->
 <script th:src="@{/dist/js/adminlte.min.js}"></script>
+<!--file input-->
+<script th:src="@{/plugins/bs-custom-file-input/bs-custom-file-input.min.js}"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function (){
+        $("#driverslicence").change(function (){
+            showImageThumbnail(this);
+        });
+    })
+
+    $(document).ready(function () {
+        bsCustomFileInput.init();
+    });
+
+    function showImageThumbnail(fileInput){
+        file = fileInput.files[0];
+        reader = new FileReader();
+
+        reader.onload = function (e){
+            $('#thumbnail').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+</script>
 </body>
 </html>

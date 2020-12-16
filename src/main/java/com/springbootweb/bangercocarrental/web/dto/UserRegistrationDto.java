@@ -13,11 +13,12 @@ public class UserRegistrationDto {
     private Date birthday;
     private int user_phoneNo;
     private String user_address;
-    private String documents;
+    private String document1;
+    private String document2;
     private String userRole;
     private boolean enabled;
 
-    public UserRegistrationDto(String username, String password, String user_fName, String user_lName, String user_email, Date birthday, int user_phoneNo, String user_address, String documents, String userRole, boolean enabled) {
+    public UserRegistrationDto(String username, String password, String user_fName, String user_lName, String user_email, Date birthday, int user_phoneNo, String user_address, String document1, String document2, String userRole, boolean enabled) {
         this.username = username;
         this.password = password;
         this.user_fName = user_fName;
@@ -26,7 +27,8 @@ public class UserRegistrationDto {
         this.birthday = birthday;
         this.user_phoneNo = user_phoneNo;
         this.user_address = user_address;
-        this.documents = documents;
+        this.document1 = document1;
+        this.document2 = document2;
         this.userRole = userRole;
         this.enabled = enabled;
     }
@@ -98,14 +100,6 @@ public class UserRegistrationDto {
         this.user_address = user_address;
     }
 
-    public String getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(String documents) {
-        this.documents = documents;
-    }
-
     public String getUserRole() {
         return userRole;
     }
@@ -120,5 +114,21 @@ public class UserRegistrationDto {
 
     public void setEnabled(boolean enable) {
         this.enabled = enable;
+    }
+
+    public String getDocument1() {
+        return document1;
+    }
+
+    public void setDocument1(String document1) {
+        this.document1 = document1;
+    }
+
+    public String getDocument2() {
+        return document2;
+    }
+
+    public void setDocument2(String document2) {
+        this.document2 = document2;
     }
 }
