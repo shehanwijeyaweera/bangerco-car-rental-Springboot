@@ -1,5 +1,6 @@
 package com.springbootweb.bangercocarrental.Controller;
 
+import com.springbootweb.bangercocarrental.Model.CarModel;
 import com.springbootweb.bangercocarrental.Model.Category;
 import com.springbootweb.bangercocarrental.Repository.Car_CategoryRepository;
 import com.springbootweb.bangercocarrental.Repository.UserRepository;
@@ -79,5 +80,18 @@ public class AdminController {
             throw new IOException("Could not save uploaded file: " + logoImage);
         }
         return "redirect:/admin/category/addnewcategory?success";
+    }
+
+    @GetMapping("/car/viewallcars")
+    public String viewAllCars(Model model){
+
+        return "admin_viewAllCars";
+    }
+
+    @GetMapping("/car/addnewcar")
+    public String AddNewCar(Model model){
+        CarModel carModel = new CarModel();
+        model.addAttribute("cars", carModel);
+        return "admin_addnewCar";
     }
 }

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="Fragments/User_fragments :: html_head"/>
+
+<body class="hold-transition sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    <nav th:replace="Fragments/User_fragments :: side_dropdown"/>
+
+    <aside th:replace="Fragments/Admin_fragments :: side_nav_admin"/>
+
+    <div class="content-wrapper">
+        <!--        Page Header-->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Car Management</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Blank Page</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <div th:if="${param.success}" class="card bg-gradient-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Success</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                        class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            Car Added Successfully
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <!-- general form elements disabled -->
+                    <div class="card card-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">Add New Car</h3>
+                        </div>
+
+                        <div class="card-body">
+                            <form th:action="@{/admin/category/save}" method="post" th:object="${cars}"
+                                  enctype="multipart/form-data" role="form">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Car Name</label>
+                                            <input type="text" th:field="*{car_name}" class="form-control"
+                                                   placeholder="Name" required autofocus="autofocus">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Car Plate</label>
+                                            <input type="text" th:field="*{car_plate}" class="form-control"
+                                                   placeholder="Name" required autofocus="autofocus">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Fuel Type</label>
+                                            <input type="text" th:field="*{fuelType}" class="form-control"
+                                                   placeholder="Name" required autofocus="autofocus">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Rental Price</label>
+                                            <input type="text" th:field="*{rental_price}" class="form-control"
+                                                   placeholder="Name" required autofocus="autofocus">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Type</label>
+                                            <input type="text" th:field="*{type}" class="form-control"
+                                                   placeholder="Name" required autofocus="autofocus">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Year Of Made</label>
+                                            <input type="text" th:field="*{yearofmade}" class="form-control"
+                                                   placeholder="Name" required autofocus="autofocus">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="logofile">Car Image</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input required autofocus="autofocus" type="file"
+                                                           class="custom-file-input" name="logofile" id="logofile">
+                                                    <label class="custom-file-label" for="logofile">Choose file</label>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="">Upload</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <img id="thumbnail" alt="logo Preview"/>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!-- textarea -->
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea th:field="*{description}" class="form-control" rows="3"
+                                                      placeholder="Description" required
+                                                      autofocus="autofocus"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-success" type="submit">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/plugins/bs-custom-file-input/bs-custom-file-input.min.js}"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        bsCustomFileInput.init();
+
+        $('#logofile').change(function () {
+            showImageThumbnail(this)
+        })
+    });
+
+    function showImageThumbnail(fileInput) {
+        file = fileInput.files[0];
+        reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#thumbnail').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+
+</script>
+</body>
+
+</html>
