@@ -103,7 +103,7 @@
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container User -->
-    <aside th:fragment="side_nav" class="main-sidebar sidebar-dark-primary elevation-4">
+    <aside th:fragment="side_nav_admin" class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="../../index3.html" class="brand-link">
             <span class="brand-text font-weight-light">Banger & Co</span>
@@ -127,7 +127,7 @@
 
                     <li class="nav-item">
                         <a href="../gallery.html" class="nav-link">
-                            <i class="nav-icon fa fa-car"></i>
+                            <i class="nav-icon fa fa-tachometer-alt"></i>
                             <p>
                                 Dashboard
                             </p>
@@ -135,17 +135,25 @@
                     </li>
                     <li class="nav-item">
                         <a href="../gallery.html" class="nav-link">
-                            <i class="nav-icon fa fa-list"></i>
+                            <i class="nav-icon fa fa-car"></i>
                             <p>
-                                Reservations
+                                Cars
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../gallery.html" class="nav-link">
+                        <a th:href="@{/admin/category/viewallcategories}" class="nav-link">
+                            <i class="nav-icon fa fa-bars"></i>
+                            <p>
+                                Categories
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/admin/users}" class="nav-link">
                             <i class="nav-icon far fa-user"></i>
                             <p>
-                                User
+                                Clients
                             </p>
                         </a>
                     </li>
@@ -235,3 +243,8 @@
 <script th:src="@{/dist/js/demo.js}"></script>
 </body>
 </html>
+
+
+
+<!--code-->
+

@@ -9,7 +9,7 @@
 
     <nav th:replace="Fragments/User_fragments :: side_dropdown"/>
 
-    <aside th:replace="Fragments/User_fragments :: side_nav_admin"/>
+    <aside th:replace="Fragments/Admin_fragments :: side_nav_admin"/>
 
     <div class="content-wrapper">
         <!--        Page Header-->
@@ -38,7 +38,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">View All Clients</h3>
                                 <div class="offset-11">
-                                    <button><a>Add New User</a></button>
+                                   <a class="btn btn-block btn-outline-primary btn-sm">Add New User</a>
                                 </div>
                             </div>
                             <!-- /.card-header -->
@@ -52,7 +52,7 @@
                                         <th>Username</th>
                                         <th>Email</th>
                                         <th>Address</th>
-                                        <th>Birthday</th>
+                                        <th>Age</th>
                                         <th>Drivers Licence</th>
                                         <th>Tax statements</th>
                                         <th>status</th>
@@ -66,7 +66,7 @@
                                         <td th:text="${user.username}"></td>
                                         <td th:text="${user.user_email}"></td>
                                         <td th:text="${user.user_address}"></td>
-                                        <td th:text="${user.birthday}"></td>
+                                        <td th:text="${user.age}"></td>
                                         <td>
                                             <img th:src="@{${user.drivingLicenceImagePath}}" style="width: 50px; height: 50px">
                                         </td>

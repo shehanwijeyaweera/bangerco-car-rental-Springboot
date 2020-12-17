@@ -4,6 +4,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -174,5 +176,21 @@ public class User {
         if (document2 == null || id == null) return null;
 
         return "/documents/" + id + "/" + document2;
+    }
+
+    @Transient
+    public int getAge(){
+        LocalDate birthdate = convertToLocalDateViaInstant(birthday);
+        if ((birthdate != null)) {
+            return Period.between(birthdate, LocalDate.now()).getYears();
+        } else {
+            return 0;
+        }
+    }
+
+    public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
 }
