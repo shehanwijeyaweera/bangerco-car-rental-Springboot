@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="card-body">
-                            <form th:action="@{/admin/category/save}" method="post" th:object="${cars}"
+                            <form th:action="@{/admin/car/save}" method="post" th:object="${cars}"
                                   enctype="multipart/form-data" role="form">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -84,8 +84,11 @@
                                         <!-- text input -->
                                         <div class="form-group">
                                             <label>Fuel Type</label>
-                                            <input type="text" th:field="*{fuelType}" class="form-control"
-                                                   placeholder="Name" required autofocus="autofocus">
+                                            <select class="form-control" th:field="*{fuelType}" required autofocus="autofocus">
+                                                <option value="">Select Fuel</option>
+                                                <option th:value="Petrol">Petrol</option>
+                                                <option th:value="Diesel">Diesel</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -102,8 +105,10 @@
                                         <!-- text input -->
                                         <div class="form-group">
                                             <label>Type</label>
-                                            <input type="text" th:field="*{type}" class="form-control"
-                                                   placeholder="Name" required autofocus="autofocus">
+                                            <select class="form-control" th:field="*{category}" required autofocus="autofocus">
+                                                <option value="">select Car Type</option>
+                                                <option th:each="category : ${categories}" th:value="${category.category_id}" th:text="${category.category_name}"></option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -118,12 +123,12 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="logofile">Car Image</label>
+                                            <label for="carImage">Car Image</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input required autofocus="autofocus" type="file"
-                                                           class="custom-file-input" name="logofile" id="logofile">
-                                                    <label class="custom-file-label" for="logofile">Choose file</label>
+                                                           class="custom-file-input" name="carImage" id="carImage">
+                                                    <label class="custom-file-label" for="carImage">Choose file</label>
                                                 </div>
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" id="">Upload</span>
@@ -177,7 +182,7 @@
     $(document).ready(function () {
         bsCustomFileInput.init();
 
-        $('#logofile').change(function () {
+        $('#carImage').change(function () {
             showImageThumbnail(this)
         })
     });

@@ -132,4 +132,11 @@ public class CarModel {
     public void setCategory(Set<Category> category) {
         this.category = category;
     }
+
+    @Transient
+    public String getCarImagePath(){
+        if (car_image == null || car_id == null) return null;
+
+        return "/car_images/" + car_id + "/" + car_image;
+    }
 }

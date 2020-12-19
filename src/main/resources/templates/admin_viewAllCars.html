@@ -30,11 +30,53 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
+                        <div class="col-md-6 offset-3">
+                            <div th:if="${param.activate}" class="card bg-gradient-success" id="successMessage">
+                                <div class="card-header">
+                                    <h3 class="card-title">Success</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                                class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    Car Activated
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-3">
+                            <div th:if="${param.inactivate}" class="card bg-gradient-danger" id="successMessage">
+                                <div class="card-header">
+                                    <h3 class="card-title">Success</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                                class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    Car Inactivated
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-12">
 
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">View All Cars  </h3>
+                                    <h3 class="card-title">View All Cars </h3>
                                     <div class="offset-11">
                                         <a class="btn btn-block btn-outline-primary btn-sm"
                                            th:href="@{/admin/car/addnewcar}">Add New Car</a>
@@ -58,17 +100,29 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr >
-                                            <td ></td>
-                                            <td ></td>
-                                            <td ></td>
-                                            <td ></td>
-                                            <td ></td>
-                                            <td ></td>
-                                            <td ></td>
-                                            <td ></td>
-                                            <td ></td>
-                                            <td ></td>
+                                        <tr th:each="car : ${cars}">
+                                            <td th:text="${car.car_id}"></td>
+                                            <td th:text="${car.car_name}"></td>
+                                            <td>
+                                                <img th:src="@{${car.carImagePath}}" style="width: 100px; height: 70px">
+                                            </td>
+                                            <td th:text="${car.car_plate}"></td>
+                                            <td th:text="${car.description}"></td>
+                                            <td th:text="${car.fuelType}"></td>
+                                            <td th:text="${car.rental_price}"></td>
+                                            <td>
+                                                <th:block th:each="category : ${car.category}">
+                                                    <img th:src="@{${category.logoImagePath}}"
+                                                         style="width: 100px; height: 70px">
+                                                </th:block>
+                                            </td>
+                                            <td th:text="${car.yearofmade}"></td>
+                                            <td>
+                                                <a th:href="${car.enabled} ? '/admin/car/activate/' + ${car.car_id} : '/admin/car/inactivate/' + ${car.car_id}">
+                                                    <span th:class="${car.enabled} ? 'badge bg-danger' : 'badge bg-success'"
+                                                        th:text="${car.enabled}? onRepair : Available"></span>
+                                                </a>
+                                            </td>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -114,6 +168,9 @@
             "responsive": true,
         });
     });
+
+    $('#successMessage').delay(3000).fadeOut('slow');
+
 </script>
 </body>
 
