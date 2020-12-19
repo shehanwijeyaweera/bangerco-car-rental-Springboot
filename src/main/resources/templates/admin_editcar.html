@@ -61,6 +61,7 @@
                         <div class="card-body">
                             <form th:action="@{/admin/car/save}" method="post" th:object="${cars}"
                                   enctype="multipart/form-data" role="form">
+                                <input type="hidden" th:field="*{car_id}">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <!-- text input -->
@@ -105,7 +106,7 @@
                                         <!-- text input -->
                                         <div class="form-group">
                                             <label>Type</label>
-                                            <select class="form-control" th:field="*{category}" required autofocus="autofocus">
+                                            <select class="form-control" th:field="*{category}" required autofocus="autofocus" >
                                                 <option value="">select Car Type</option>
                                                 <option th:each="category : ${categories}" th:value="${category.category_id}" th:text="${category.category_name}"></option>
                                             </select>
@@ -126,7 +127,7 @@
                                             <label for="carImage">Car Image</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
-                                                    <input required autofocus="autofocus" type="file"
+                                                    <input type="file"
                                                            class="custom-file-input" name="carImage" id="carImage">
                                                     <label class="custom-file-label" for="carImage">Choose file</label>
                                                 </div>
@@ -138,7 +139,7 @@
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <img id="thumbnail" alt="logo Preview"/>
+                                    <img id="thumbnail" alt="logo Preview" th:src="@{${carImagePath}}"/>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">

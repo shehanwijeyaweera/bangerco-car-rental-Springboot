@@ -32,13 +32,55 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
+                    <div class="col-md-6 offset-3">
+                        <div th:if="${param.activated}" class="card bg-gradient-success" id="successMessage">
+                            <div class="card-header">
+                                <h3 class="card-title">Success</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                            class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <!-- /.card-tools -->
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                User Activated
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 offset-3">
+                        <div th:if="${param.inactivated}" class="card bg-gradient-danger" id="successMessage">
+                            <div class="card-header">
+                                <h3 class="card-title">Success</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                            class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <!-- /.card-tools -->
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                User Blacklisted
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-12">
 
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">View All Clients</h3>
                                 <div class="offset-11">
-                                   <a class="btn btn-block btn-outline-primary btn-sm">Add New User</a>
+                                    <a class="btn btn-block btn-outline-primary btn-sm">Add New User</a>
                                 </div>
                             </div>
                             <!-- /.card-header -->
@@ -68,15 +110,19 @@
                                         <td th:text="${user.user_address}"></td>
                                         <td th:text="${user.age}"></td>
                                         <td>
-                                            <img th:src="@{${user.drivingLicenceImagePath}}" style="width: 50px; height: 50px">
+                                            <img th:src="@{${user.drivingLicenceImagePath}}"
+                                                 style="width: 50px; height: 50px">
                                         </td>
                                         <td>
-                                            <img th:src="@{${user.taxStatementImagePath}}" style="width: 50px; height: 50px">
+                                            <img th:src="@{${user.taxStatementImagePath}}"
+                                                 style="width: 50px; height: 50px">
                                         </td>
                                         <td>
+                                            <a th:href="${user.enabled} ? '/admin/user/activate/' + ${user.id} : '/admin/user/block/' + ${user.id}">
                                             <span th:class="${user.enabled} ? 'badge bg-danger' : 'badge bg-success'"
                                                   th:text="${user.enabled}? Blocked : Active">
-    </span>
+                                            </span>
+                                            </a>
                                         </td>
                                     </tr>
                                     </tfoot>
@@ -123,6 +169,8 @@
             "responsive": true,
         });
     });
+
+    $('#successMessage').delay(3000).fadeOut('slow');
 </script>
 </body>
 

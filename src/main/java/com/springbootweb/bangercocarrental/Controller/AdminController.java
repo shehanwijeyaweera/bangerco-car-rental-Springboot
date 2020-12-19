@@ -2,10 +2,12 @@ package com.springbootweb.bangercocarrental.Controller;
 
 import com.springbootweb.bangercocarrental.Model.CarModel;
 import com.springbootweb.bangercocarrental.Model.Category;
+import com.springbootweb.bangercocarrental.Model.User;
 import com.springbootweb.bangercocarrental.Repository.CarModelRepository;
 import com.springbootweb.bangercocarrental.Repository.Car_CategoryRepository;
 import com.springbootweb.bangercocarrental.Repository.UserRepository;
 import com.springbootweb.bangercocarrental.Service.CarModelService;
+import com.sun.istack.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -109,29 +112,55 @@ public class AdminController {
     }
 
     @PostMapping("/car/save")
-    public String saveCar(@ModelAttribute("cars") CarModel carModel, @RequestParam("carImage")MultipartFile carpic) throws IOException {
+    public String saveCar(@ModelAttribute("cars") CarModel carModel,@Nullable @RequestParam("carImage")MultipartFile carpic) throws IOException {
+
+        Optional<CarModel> currentCar = carModelRepository.findById(carModel.getCar_id());
 
         String carImage = StringUtils.cleanPath(carpic.getOriginalFilename());
-        carModel.setCar_image(carImage);
 
-        CarModel savedCar = carModelRepository.save(carModel);
+        if(carImage != null) {
+            carModel.setCar_image(carImage);
 
-        String uploadDir = "./car_images/" + savedCar.getCar_id();
+            CarModel savedCar = carModelRepository.save(carModel);
 
-        Path uploadPath = Paths.get(uploadDir);
+            String uploadDir = "./car_images/" + savedCar.getCar_id();
 
-        if(!Files.exists(uploadPath)){
-            Files.createDirectories(uploadPath);
+            Path uploadPath = Paths.get(uploadDir);
+
+            if(!Files.exists(uploadPath)){
+                Files.createDirectories(uploadPath);
+            }
+
+            try(InputStream inputStream = carpic.getInputStream()) {
+                Path filePath = uploadPath.resolve(carImage);
+                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            }catch (IOException e){
+                //
+            }
+        }else if(carImage == currentCar.get().getCar_image()) {
+            Optional<CarModel> currentCar1 = carModelRepository.findById(carModel.getCar_id());
+            carModel.setCar_image(currentCar1.get().getCar_image());
+
+            CarModel savedCar = carModelRepository.save(carModel);
         }
+        else {
+            Optional<CarModel> currentCar2 = carModelRepository.findById(carModel.getCar_id());
+            carModel.setCar_image(currentCar2.get().getCar_image());
 
-        try(InputStream inputStream = carpic.getInputStream()) {
-            Path filePath = uploadPath.resolve(carImage);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        }catch (IOException e){
-            throw new IOException("Could not save uploaded file: " + carImage);
+            CarModel savedCar = carModelRepository.save(carModel);
         }
 
         return "redirect:/admin/car/addnewcar?success";
+    }
+
+    @GetMapping("/car/viewUpdateCar/{car_id}")
+    public String viewCarUpdatePage(@PathVariable(value = "car_id")Long car_id, Model model){
+        Optional<CarModel> carModel = carModelRepository.findById(car_id);
+
+        model.addAttribute("categories", car_categoryRepository.findAll());
+        model.addAttribute("cars", carModel);
+
+        return "admin_editcar";
     }
 
     @GetMapping("/car/inactivate/{car_id}")
@@ -148,5 +177,21 @@ public class AdminController {
         currentCar.get().setEnabled(FALSE);
         carModelRepository.save(currentCar.get());
         return "redirect:/admin/car/viewallcars?activate";
+    }
+
+    @GetMapping("/user/activate/{user_id}")
+    public String activateUser(@PathVariable(value = "user_id")Long user_id){
+        Optional<User> user = userRepository.findById(user_id);
+        user.get().setEnabled(FALSE);
+        userRepository.save(user.get());
+        return "redirect:/admin/users?activated";
+    }
+
+    @GetMapping("/user/block/{user_id}")
+    public String inactivateUser(@PathVariable(value = "user_id")Long user_id){
+        Optional<User> user = userRepository.findById(user_id);
+        user.get().setEnabled(TRUE);
+        userRepository.save(user.get());
+        return "redirect:/admin/users?inactivated";
     }
 }
