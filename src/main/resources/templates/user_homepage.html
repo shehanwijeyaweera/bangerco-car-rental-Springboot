@@ -17,7 +17,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>User Homepage Page</h1>
+                        <h1>Homepage</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -46,42 +46,44 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-hover">
+                    <table id="example1" class="table table-hover text-nowrap">
                         <thead>
                         <tr>
-                            <th>Car Name</th>
-                            <th>Car Image</th>
-                            <th>Car Plate</th>
-                            <th>Description</th>
-                            <th>Transmission</th>
-                            <th>Fuel</th>
-                            <th>Rental(Per Day)</th>
-                            <th>Type</th>
-                            <th>YOM</th>
-                            <th>Status</th>
+                            <th></th>
+                            <th style="text-align: center; vertical-align: middle">Car Name</th>
+                            <th style="text-align: center; vertical-align: middle">Transmission</th>
+                            <th style="text-align: center; vertical-align: middle">Rental(Per Day)</th>
+                            <th style="text-align: center; vertical-align: middle">Type</th>
+                            <th style="text-align: center; vertical-align: middle">Status</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="car : ${cars}">
-                            <td th:text="${car.car_name}"></td>
                             <td>
                                 <img th:src="@{${car.carImagePath}}" style="width: 100px; height: 70px">
                             </td>
-                            <td th:text="${car.car_plate}"></td>
-                            <td th:text="${car.description}"></td>
-                            <td th:text="${car.transmission}"></td>
-                            <td th:text="${car.fuelType}"></td>
-                            <td th:text="'£'+${car.rental_price}+'0'"></td>
-                            <td>
+                            <td th:text="${car.car_name}" style="text-align: center; vertical-align: middle"></td>
+                            <td th:text="${car.transmission}" style="text-align: center; vertical-align: middle"></td>
+                            <td th:text="'£'+${car.rental_price}+'0'" style="text-align: center; vertical-align: middle"></td>
+                            <td style="text-align: center; vertical-align: middle">
                                 <th:block th:each="category : ${car.category}">
                                     <img th:src="@{${category.logoImagePath}}"
                                          style="width: 100px; height: 70px">
                                 </th:block>
                             </td>
-                            <td th:text="${car.yearofmade}"></td>
-                            <td>
+                            <td style="text-align: center; vertical-align: middle">
                                 <span th:class="${car.enabled} ? 'badge bg-danger' : 'badge bg-success'"
                                       th:text="${car.enabled}? onRepair : Available"></span>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle">
+                                <a th:href="@{/user/car/details/{id}(id=${car.car_id})}">
+                                <span class="fa fa-search"></span>
+                                </a>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle">
+                                <a class="btn btn-block btn-outline-primary btn-xs">Reserve</a>
                             </td>
                         </tr>
                         </tfoot>

@@ -10,7 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user/")
@@ -36,10 +39,17 @@ public class UserController {
         User user= userRepository.findByUsername(username);
 
         if(user.getAge()>=25){
-            model.addAttribute("cars", carModelRepository.findAll());
+            model.addAttribute("cars", carModelRepository.getAllActiveCars());
         }else {
             model.addAttribute("cars", carModelRepository.getSmallTownCars());
         }
         return "user_homepage";
+    }
+
+    @GetMapping("/car/details/{car_id}")
+    public String viewCardDetails(@PathVariable("car_id")Long id, Model model){
+        Optional<CarModel> carModel = carModelRepository.findById(id);
+        model.addAttribute("car_details", carModel);
+        return "user_viewCarDetails";
     }
 }

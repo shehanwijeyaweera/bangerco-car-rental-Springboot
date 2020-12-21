@@ -15,6 +15,9 @@ public interface CarModelRepository extends JpaRepository<CarModel, Long> {
     @Query("UPDATE CarModel i set i.enabled=TRUE where i.car_id=?1")
     void inactivateCar(Long car_id);
 
-    @Query("SELECT i from CarModel i JOIN i.category u WHERE u.category_name='Micro'")
+    @Query("SELECT i from CarModel i JOIN i.category u WHERE u.category_name='Micro' AND i.enabled=FALSE")
     List<CarModel> getSmallTownCars();
+
+    @Query("select i from CarModel i where i.enabled=FALSE ")
+    List<CarModel> getAllActiveCars();
 }
