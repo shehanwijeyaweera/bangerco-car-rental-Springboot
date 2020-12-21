@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="Fragments/User_fragments :: html_head" />
+<head th:replace="Fragments/User_fragments :: html_head"/>
 
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 
-    <nav th:replace="Fragments/User_fragments :: side_dropdown" />
+    <nav th:replace="Fragments/User_fragments :: side_dropdown"/>
 
-    <aside th:replace="Fragments/User_fragments :: side_nav" />
+    <aside th:replace="Fragments/User_fragments :: side_nav"/>
 
     <div class="content-wrapper">
         <!--        Page Header-->
@@ -34,21 +34,62 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Title</h3>
+                    <h3 class="card-title">Rent A Car Collection</h3>
 
                     <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
+                                title="Collapse">
                             <i class="fas fa-minus"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip"
+                                title="Remove">
                             <i class="fas fa-times"></i></button>
                     </div>
                 </div>
                 <div class="card-body">
-                    Start creating your amazing application!
+                    <table id="example1" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>Car Name</th>
+                            <th>Car Image</th>
+                            <th>Car Plate</th>
+                            <th>Description</th>
+                            <th>Transmission</th>
+                            <th>Fuel</th>
+                            <th>Rental(Per Day)</th>
+                            <th>Type</th>
+                            <th>YOM</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="car : ${cars}">
+                            <td th:text="${car.car_name}"></td>
+                            <td>
+                                <img th:src="@{${car.carImagePath}}" style="width: 100px; height: 70px">
+                            </td>
+                            <td th:text="${car.car_plate}"></td>
+                            <td th:text="${car.description}"></td>
+                            <td th:text="${car.transmission}"></td>
+                            <td th:text="${car.fuelType}"></td>
+                            <td th:text="'£'+${car.rental_price}+'0'"></td>
+                            <td>
+                                <th:block th:each="category : ${car.category}">
+                                    <img th:src="@{${category.logoImagePath}}"
+                                         style="width: 100px; height: 70px">
+                                </th:block>
+                            </td>
+                            <td th:text="${car.yearofmade}"></td>
+                            <td>
+                                <span th:class="${car.enabled} ? 'badge bg-danger' : 'badge bg-success'"
+                                      th:text="${car.enabled}? onRepair : Available"></span>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                    Footer
+                    <!--                    Footer-->
                 </div>
                 <!-- /.card-footer-->
             </div>

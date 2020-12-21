@@ -19,6 +19,7 @@ public class CarModel {
     private String fuelType;
     private String description;
     private int yearofmade;
+    private String transmission;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "carModel_category",
@@ -32,7 +33,7 @@ public class CarModel {
     public CarModel() {
     }
 
-    public CarModel(String car_name, String type, String car_image, String car_plate, double rental_price, String fuelType, String description, int yearofmade, Set<Category> category, boolean enabled) {
+    public CarModel(String car_name, String type, String car_image, String car_plate, double rental_price, String fuelType, String description, int yearofmade, String transmission, Set<Category> category, boolean enabled) {
         this.car_name = car_name;
         this.type = type;
         this.car_image = car_image;
@@ -41,6 +42,7 @@ public class CarModel {
         this.fuelType = fuelType;
         this.description = description;
         this.yearofmade = yearofmade;
+        this.transmission = transmission;
         this.category = category;
         this.enabled = enabled;
     }
@@ -123,6 +125,14 @@ public class CarModel {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getTransmission() {
+        return transmission;
+    }
+
+    public void setTransmission(String transmission) {
+        this.transmission = transmission;
     }
 
     public Set<Category> getCategory() {

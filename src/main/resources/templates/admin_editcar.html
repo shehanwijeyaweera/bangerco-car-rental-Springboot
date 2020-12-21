@@ -89,6 +89,7 @@
                                                 <option value="">Select Fuel</option>
                                                 <option th:value="Petrol">Petrol</option>
                                                 <option th:value="Diesel">Diesel</option>
+                                                <option th:value="Hybrid">Diesel</option>
                                             </select>
                                         </div>
                                     </div>
@@ -118,6 +119,18 @@
                                             <label>Year Of Made</label>
                                             <input type="text" th:field="*{yearofmade}" class="form-control"
                                                    placeholder="Name" required autofocus="autofocus">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Transmission Type</label>
+                                            <select class="form-control" th:field="*{transmission}" required autofocus="autofocus">
+                                                <option value="">Select Transmission Type</option>
+                                                <option th:value="Automatic">Automatic</option>
+                                                <option th:value="Manual">Manual</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

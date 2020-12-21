@@ -45,7 +45,7 @@ public class LoginController{
                 return "redirect:/blacklisted";
             }
             else {
-                return "user_homepage";
+                return "redirect:/user/homepage";
             }
         }
         return "redirect:/login";

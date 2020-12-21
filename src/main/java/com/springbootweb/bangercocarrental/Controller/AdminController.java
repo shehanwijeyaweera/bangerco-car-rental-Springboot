@@ -114,7 +114,9 @@ public class AdminController {
     @PostMapping("/car/save")
     public String saveCar(@ModelAttribute("cars") CarModel carModel,@Nullable @RequestParam("carImage")MultipartFile carpic) throws IOException {
 
-        Optional<CarModel> currentCar = carModelRepository.findById(carModel.getCar_id());
+        if(carModel.getCar_id()!=null) {
+            Optional<CarModel> currentCar = carModelRepository.findById(carModel.getCar_id());
+        }
 
         String carImage = StringUtils.cleanPath(carpic.getOriginalFilename());
 
@@ -137,11 +139,6 @@ public class AdminController {
             }catch (IOException e){
                 //
             }
-        }else if(carImage == currentCar.get().getCar_image()) {
-            Optional<CarModel> currentCar1 = carModelRepository.findById(carModel.getCar_id());
-            carModel.setCar_image(currentCar1.get().getCar_image());
-
-            CarModel savedCar = carModelRepository.save(carModel);
         }
         else {
             Optional<CarModel> currentCar2 = carModelRepository.findById(carModel.getCar_id());
