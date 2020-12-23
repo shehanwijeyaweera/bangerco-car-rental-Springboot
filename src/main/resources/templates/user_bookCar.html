@@ -206,7 +206,7 @@
             console.log("£" + calRent);
 
             document.getElementById("calrent").value = calRent;
-        } else if (new Date($("#startTimeDate").val()) != new Date($("#endTimeDate").val())) {
+        } else if (new Date($("#startTimeDate").val()).getTime() == new Date($("#endTimeDate").val()).getTime()) {
             if (hourDiff == 5) {
                 var rentalPrice = $("#rentalprice").text();
                 var floatPrice = parseFloat(rentalPrice);
