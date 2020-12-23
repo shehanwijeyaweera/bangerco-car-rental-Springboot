@@ -20,4 +20,7 @@ public interface CarModelRepository extends JpaRepository<CarModel, Long> {
 
     @Query("select i from CarModel i where i.enabled=FALSE ")
     List<CarModel> getAllActiveCars();
+
+    @Query("select i from CarModel i where i.car_id=?1")
+    CarModel getCarDetails(Long car_id);
 }

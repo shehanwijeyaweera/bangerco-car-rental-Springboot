@@ -35,91 +35,99 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 col-sm-6">
-                            <!--                            booking side-->
-                            <div class="col-12">
-                                <img th:src="@{${car_details.get().carImagePath}}" class="product-image"
-                                     alt="Car Image">
-                            </div>
-                            <!--                            car name-->
-                            <h3 th:text="${car_details.get().car_name}" class="my-3 text-center"></h3>
-                            <p hidden="hidden" id="rentalprice" th:text="${car_details.get().rental_price}"></p>
-                            <!--                            pick up time and date-->
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                        <label>Pick-Up</label>
-                                        <div class="input-group date" id="timepicker" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" id="startTime"
-                                                   data-target="#timepicker"/>
-                                            <div class="input-group-append" data-target="#timepicker"
-                                                 data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="far fa-clock"></i></div>
+                            <form th:action="@{/user/car/booking/save/{id}(id=${car_details.get().car_id})}" th:object="${reservation}" method="post" role="form">
+                                <!--                            booking side-->
+                                <div class="col-12">
+                                    <img th:src="@{${car_details.get().carImagePath}}" class="product-image"
+                                         alt="Car Image">
+                                </div>
+                                <!--                            car name-->
+                                <h3 th:text="${car_details.get().car_name}" class="my-3 text-center"></h3>
+                                <p hidden="hidden" id="rentalprice" th:text="${car_details.get().rental_price}"></p>
+                                <input th:field="*{startDate}" hidden="hidden" id="pickupdatetime"/>
+                                <input th:field="*{endDate}" hidden="hidden" id="dropoffdatetime"/>
+                                <input th:field="*{vehical_no}" hidden="hidden" th:text="${car_details.get().car_id}"/>
+                                <!--                            pick up time and date-->
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Pick-Up</label>
+                                            <div class="input-group date" id="timepicker" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input"
+                                                       id="startTime"
+                                                       data-target="#timepicker"/>
+                                                <div class="input-group-append" data-target="#timepicker"
+                                                     data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>&nbsp;</label>
+                                            <div class="input-group date" id="pickupdate" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input"
+                                                       id="startTimeDate" data-target="#pickupdate"/>
+                                                <div class="input-group-append" data-target="#pickupdate"
+                                                     data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <div class="input-group date" id="pickupdate" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input"
-                                                   id="startTimeDate" data-target="#pickupdate"/>
-                                            <div class="input-group-append" data-target="#pickupdate"
-                                                 data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                <!--                            drop off time and date-->
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Drop-Off</label>
+                                            <div class="input-group date" id="timepicker2" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input"
+                                                       id="endTime"
+                                                       data-target="#timepicker2"/>
+                                                <div class="input-group-append" data-target="#timepicker2"
+                                                     data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>&nbsp;</label>
+                                            <div class="input-group date" id="dropoffdate" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input"
+                                                       id="endTimeDate" data-target="#dropoffdate"/>
+                                                <div class="input-group-append" data-target="#dropoffdate"
+                                                     data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!--                            drop off time and date-->
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                        <label>Drop-Off</label>
-                                        <div class="input-group date" id="timepicker2" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" id="endTime"
-                                                   data-target="#timepicker2"/>
-                                            <div class="input-group-append" data-target="#timepicker2"
-                                                 data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="far fa-clock"></i></div>
-                                            </div>
+                                <!--                            total fee-->
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>Rental</label>
+                                            <input th:field="*{fee}" type="text" id="calrent" class="form-control"
+                                                   placeholder="Name" required autofocus="autofocus">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <div class="input-group date" id="dropoffdate" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input"
-                                                   id="endTimeDate" data-target="#dropoffdate"/>
-                                            <div class="input-group-append" data-target="#dropoffdate"
-                                                 data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <!--                            confirm button-->
+                                <div class="text-center">
+                                    <button class="btn btn-success" id="submitButton" type="submit" disabled>Submit
+                                    </button>
                                 </div>
-                            </div>
-                            <!--                            total fee-->
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                        <label>Rental</label>
-                                        <input type="text" id="calrent" class="form-control"
-                                               placeholder="Name" required autofocus="autofocus">
-                                    </div>
-                                </div>
-                            </div>
-                            <!--                            confirm button-->
-                            <div class="text-center">
-                                <button class="btn btn-success" id="submitButton" type="submit" disabled>Submit</button>
-                            </div>
+                            </form>
                         </div>
                         <div class="col-12 col-sm-6">
                             <!--                            show other bookings-->
@@ -179,6 +187,7 @@
 
     // count hours
     $('#dropoffdate').on('change.datetimepicker', function () {
+        document.getElementById("submitButton").disabled = true;
         var valuestart = $("#startTime").val();
         var valuestop = $("#endTime").val();
 
@@ -191,46 +200,56 @@
         console.log(hourDiff + " Hours");
 
         //new function
-        if (new Date($("#startTimeDate").val()) < new Date($("#endTimeDate").val())) {
-            const date1 = new Date($("#startTimeDate").val());
-            const date2 = new Date($("#endTimeDate").val());
-            const diffTime = Math.abs(date2 - date1);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            console.log(diffDays + " days");
+        const date1 = new Date($("#startTimeDate").val());
+        const date2 = new Date($("#endTimeDate").val());
+        const diffTime = Math.abs(date2 - date1);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        console.log(diffDays + " days");
+        document.getElementById("calrent").value = "";
+        if (diffDays <= 14) {
+            if (new Date($("#startTimeDate").val()) < new Date($("#endTimeDate").val())) {
 
-            //calculating price
-            var rentalPrice = $("#rentalprice").text();
-            var floatPrice = parseFloat(rentalPrice);
-            var floatDays = parseFloat(diffDays);
-            var calRent = floatDays * floatPrice;
-            console.log("£" + calRent);
-
-            document.getElementById("calrent").value = calRent;
-        } else if (new Date($("#startTimeDate").val()).getTime() == new Date($("#endTimeDate").val()).getTime()) {
-            if (hourDiff == 5) {
+                //calculating price
                 var rentalPrice = $("#rentalprice").text();
                 var floatPrice = parseFloat(rentalPrice);
-                var calRent = floatPrice * 0.5;
+                var floatDays = parseFloat(diffDays);
+                var calRent = floatDays * floatPrice;
+                console.log("£" + calRent);
 
                 document.getElementById("calrent").value = calRent;
-            }
-            else if(hourDiff > 5){
-                var rentalPrice = $("#rentalprice").text();
-                var floatPrice = parseFloat(rentalPrice);
-                var calRent = floatPrice;
+            } else if (new Date($("#startTimeDate").val()).getTime() == new Date($("#endTimeDate").val()).getTime()) {
+                if (hourDiff == 5) {
+                    var rentalPrice = $("#rentalprice").text();
+                    var floatPrice = parseFloat(rentalPrice);
+                    var calRent = floatPrice * 0.5;
 
-                document.getElementById("calrent").value = calRent;
-            }
-            else if(hourDiff < 5){
-                var rentalPrice = $("#rentalprice").text();
-                var floatPrice = parseFloat(rentalPrice);
-                var calRent = floatPrice;
+                    document.getElementById("calrent").value = calRent;
+                } else if (hourDiff > 5) {
+                    var rentalPrice = $("#rentalprice").text();
+                    var floatPrice = parseFloat(rentalPrice);
+                    var calRent = floatPrice;
 
+                    document.getElementById("calrent").value = calRent;
+                } else if (hourDiff < 5) {
+                    var rentalPrice = $("#rentalprice").text();
+                    var floatPrice = parseFloat(rentalPrice);
+                    var calRent = floatPrice;
+
+                    document.getElementById("calrent").value = "";
+                }
+            } else {
                 document.getElementById("calrent").value = "";
             }
-        } else {
-            document.getElementById("calrent").value = "";
         }
+        var momentObj = moment($("#startTimeDate").val() + valuestart, 'YYYY-MM-DDLT');
+        var momentObj2 = moment($("#endTimeDate").val() + valuestop, 'YYYY-MM-DDLT');
+        // conversion
+        var dateTime = momentObj.format('YYYY-MM-DD HH:mm:ss');
+        var dateTime2 = momentObj2.format('YYYY-MM-DD HH:mm:ss');
+        console.log(dateTime + " " + dateTime2);
+
+        document.getElementById("pickupdatetime").value = dateTime;
+        document.getElementById("dropoffdatetime").value = dateTime2;
 
         //enable submit button
         if ($('#calrent').val() > 0) {

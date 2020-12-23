@@ -1,7 +1,9 @@
 package com.springbootweb.bangercocarrental.Model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,6 +29,9 @@ public class CarModel {
         inverseJoinColumns = { @JoinColumn(name = "category_id") }
     )
     private Set<Category> category = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "car")
+    private List<ReservationModel> reservations = new ArrayList<>();
 
     private boolean enabled;
 
@@ -141,6 +146,14 @@ public class CarModel {
 
     public void setCategory(Set<Category> category) {
         this.category = category;
+    }
+
+    public List<ReservationModel> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<ReservationModel> reservations) {
+        this.reservations = reservations;
     }
 
     @Transient

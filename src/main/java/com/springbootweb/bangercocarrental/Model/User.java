@@ -1,11 +1,14 @@
 package com.springbootweb.bangercocarrental.Model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +42,11 @@ public class User {
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
+    @Fetch(value = FetchMode.SUBSELECT)
     private Collection<Role> userRole;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private List<ReservationModel> reservations = new ArrayList<>();
 
     public User(String username, String password, String user_fName, String user_lName, String user_email, Date birthday, int user_phoneNo, String user_address, String document1, String document2, boolean enabled, Collection<Role> userRole) {
         this.username = username;
@@ -162,6 +169,14 @@ public class User {
 
     public void setDocument2(String document2) {
         this.document2 = document2;
+    }
+
+    public List<ReservationModel> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<ReservationModel> reservations) {
+        this.reservations = reservations;
     }
 
     @Transient
