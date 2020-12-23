@@ -52,4 +52,11 @@ public class UserController {
         model.addAttribute("car_details", carModel);
         return "user_viewCarDetails";
     }
+
+    @GetMapping("/car/showbookingpage/{car_id}")
+    public String showCarBookingPage(@PathVariable("car_id")Long id, Model model){
+        Optional<CarModel> carModel = carModelRepository.findById(id);
+        model.addAttribute("car_details", carModel);
+        return "user_bookCar";
+    }
 }
