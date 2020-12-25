@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -65,11 +66,22 @@ public class UserController {
         ReservationModel reservationModel = new ReservationModel();
         model.addAttribute("car_details", carModel);
         model.addAttribute("reservation", reservationModel);
+        model.addAttribute("oldbookings", reservationRepository.getAllReservationForCar(id));
         return "user_bookCar";
     }
 
     @PostMapping("car/booking/save/{car_id}")
     public String saveBooking(@ModelAttribute("reservation")ReservationModel reservationModel,@PathVariable("car_id")Long id){
+        //1. validate given time period (this part is done in the front end)
+
+        //2. check if the dates are available for the given time period.
+        Long reservations = reservationRepository.checkIfAvailable(id, reservationModel.getStartDate(), reservationModel.getEndDate());
+        if(reservations > 0){
+            //error message
+            return "redirect:/user/car/showbookingpage/"+id+"?error";
+        }
+
+        //set reservation details
         reservationModel.getStartDate();
         reservationModel.getEndDate();
         reservationModel.setVehical_no(id);
@@ -90,6 +102,8 @@ public class UserController {
 
         User user = userRepository.findByUsername(username);
 
+        //set user details
+
         reservationModel.setUser(user);
 
         //get car details
@@ -104,4 +118,5 @@ public class UserController {
 
         return "redirect:/user/homepage?success";
     }
+
 }
