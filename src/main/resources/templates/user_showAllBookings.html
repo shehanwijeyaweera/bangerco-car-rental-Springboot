@@ -52,6 +52,27 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <div th:if="${param.cancel}" class="card bg-gradient-info" id="successMessage">
+                        <div class="card-header">
+                            <h3 class="card-title">Info</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                        class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            Reservation Canceled!
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
 
             <!-- Default box -->
             <div class="card">
@@ -92,15 +113,15 @@
                             <td th:text="'£'+${reservation.fee}+'0'" style="text-align: center; vertical-align: middle"></td>
                             <td style="text-align: center; vertical-align: middle">
                                 <span th:class="${reservation.active} ? 'badge bg-danger' : 'badge bg-success'"
-                                      th:text="${reservation.active}? Rejected : Available"></span>
+                                      th:text="${reservation.active}? Canceled : Available"></span>
                             </td>
                             <td style="text-align: center; vertical-align: middle">
-                                <a th:href="@{/user/booking/edit/{res_id}(res_id=${reservation.reservation_id})}">
+                                <a th:if="${!reservation.active}" th:href="@{/user/booking/edit/{res_id}(res_id=${reservation.reservation_id})}">
                                     <span class="fa fa-edit"></span>
                                 </a>
                             </td>
                             <td style="text-align: center; vertical-align: middle">
-                                <a class="btn btn-block btn-outline-danger btn-xs">Cancel</a>
+                                <a th:if="${!reservation.active}" th:href="@{/user/cancelRes/{id}(id=${reservation.reservation_id})}" class="btn btn-block btn-outline-danger btn-xs">Cancel</a>
                             </td>
                         </tr>
                         </tfoot>

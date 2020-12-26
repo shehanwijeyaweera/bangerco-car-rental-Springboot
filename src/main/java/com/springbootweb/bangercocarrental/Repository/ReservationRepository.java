@@ -2,14 +2,16 @@ package com.springbootweb.bangercocarrental.Repository;
 
 import com.springbootweb.bangercocarrental.Model.ReservationModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<ReservationModel, Long> {
 
-    @Query("SELECT count(u) from ReservationModel u where u.vehical_no =?1 and ((u.startDate >= ?2 and u.endDate >= ?3 and u.startDate <= ?3) or (u.startDate >= ?2 and u.endDate <= ?3) or (u.startDate <= ?2 and u.endDate >= ?3) or (u.startDate <= ?2 and u.endDate >= ?2 and u.endDate <= ?3))")
+    @Query("SELECT count(u) from ReservationModel u where u.vehical_no =?1 and ((u.startDate >= ?2 and u.endDate >= ?3 and u.startDate <= ?3) or (u.startDate >= ?2 and u.endDate <= ?3) or (u.startDate <= ?2 and u.endDate >= ?3) or (u.startDate <= ?2 and u.endDate >= ?2 and u.endDate <= ?3)) and u.active=FALSE")
     Long checkIfAvailable(Long car_id, LocalDateTime startDate, LocalDateTime endDate);
 
     @Query("select i from ReservationModel i where i.vehical_no=?1")
@@ -23,4 +25,9 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, L
 
     @Query("SELECT count(r) from ReservationModel r where r.car.car_id = ?1 and ((r.startDate >= ?2 and r.endDate >= ?3 and r.startDate <= ?3) or (r.startDate >= ?2 and r.endDate <= ?3) or (r.startDate <= ?2 and r.endDate >= ?2 and r.endDate <= ?3)) and r.reservation_id <> ?4")
     Long updateIfAvailable(Long car_id, LocalDateTime startDate, LocalDateTime endDate, Long reservation_id);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE ReservationModel i set i.active=TRUE where i.reservation_id=?1")
+    void CancelReservation(Long reservation_id);
 }

@@ -169,7 +169,10 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="booking : ${oldbookings}">
-                                        <td th:text="${booking.reservation_id}"></td>
+                                        <td >
+                                            <span th:if="${booking.reservation_id == reservation.reservation_id}" class="badge bg-success"><p th:text="${booking.reservation_id}"></p></span>
+                                            <span th:unless="${booking.reservation_id == reservation.reservation_id}"><p th:text="${booking.reservation_id}"></p></span>
+                                        </td>
                                         <td th:text="${booking.startDate}"></td>
                                         <td th:text="${booking.endDate}"></td>
                                         <td th:text="${booking.active}"></td>

@@ -245,4 +245,10 @@ public class UserController {
         return "redirect:/user/editUserdetails?success";
     }
 
+    @GetMapping("/cancelRes/{res_id}")
+    public String cancelReservation(@PathVariable(value = "res_id")Long id){
+        reservationRepository.CancelReservation(id);
+        return "redirect:/user/bookings/showall?cancel";
+    }
+
 }
