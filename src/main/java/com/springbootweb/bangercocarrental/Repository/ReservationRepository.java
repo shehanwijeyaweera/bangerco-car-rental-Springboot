@@ -30,4 +30,15 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, L
     @Modifying
     @Query("UPDATE ReservationModel i set i.active=TRUE where i.reservation_id=?1")
     void CancelReservation(Long reservation_id);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE ReservationModel i set i.active=FALSE where i.reservation_id=?1")
+    void ActiveReservation(Long reservation_id);
+
+    @Query("select i from ReservationModel i order by i.reservation_id desc ")
+    List<ReservationModel> getReservationAdminHomepage();
+
+    @Query("select sum(i.fee) from ReservationModel i")
+    Double getTotalRevenue();
 }

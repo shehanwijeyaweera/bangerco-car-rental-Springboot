@@ -25,7 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +54,8 @@ public class AdminController {
         model.addAttribute("carCount", carModelRepository.findAll().size());
         model.addAttribute("clientCount", userRepository.findAll().size());
         model.addAttribute("reservationCount", reservationRepository.findAll().size());
+        model.addAttribute("revenue", reservationRepository.getTotalRevenue());
+        model.addAttribute("reservations", reservationRepository.getReservationAdminHomepage());
         return "admin_homepage";
     }
 
@@ -201,6 +202,18 @@ public class AdminController {
         user.get().setEnabled(TRUE);
         userRepository.save(user.get());
         return "redirect:/admin/users?inactivated";
+    }
+
+    @GetMapping("/reservation/cancel/{res_id}")
+    public String cancelReservation(@PathVariable(value = "res_id")Long id){
+        reservationRepository.CancelReservation(id);
+        return "redirect:/admin/homepage?cancel";
+    }
+
+    @GetMapping("/reservation/active/{res_id}")
+    public String activeReservation(@PathVariable(value = "res_id")Long id){
+        reservationRepository.ActiveReservation(id);
+        return "redirect:/admin/homepage?active";
     }
 
 }

@@ -36,10 +36,54 @@
 
         <section class="content">
 
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <div th:if="${param.cancel}" class="card bg-gradient-danger" id="successMessage">
+                        <div class="card-header">
+                            <h3 class="card-title">Success</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                        class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            Reservation Canceled
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <div th:if="${param.active}" class="card bg-gradient-success" id="successMessage">
+                        <div class="card-header">
+                            <h3 class="card-title">Success</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                        class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            Reservation Activated
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Title</h3>
+                    <h3 class="card-title">Dashboard</h3>
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -93,9 +137,9 @@
 
                                         <div class="small-box bg-danger">
                                             <div class="inner">
-                                                <h3>65</h3>
+                                                <h3>£<p th:text="${revenue}"></p></h3>
 
-                                                <p>Unique Visitors</p>
+                                                <p>Revenue</p>
                                             </div>
                                             <div class="icon">
                                                 <i class="ion ion-pie-graph"></i>
@@ -128,6 +172,65 @@
                 </div>
                 <!-- /.card-footer-->
             </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Reservations</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                            <i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center; vertical-align: middle"> ID</th>
+                                <th style="text-align: center; vertical-align: middle">Car Image</th>
+                                <th style="text-align: center; vertical-align: middle">Start Date</th>
+                                <th style="text-align: center; vertical-align: middle">End Date</th>
+                                <th style="text-align: center; vertical-align: middle">User</th>
+                                <th style="text-align: center; vertical-align: middle">Fee</th>
+                                <th style="text-align: center; vertical-align: middle">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="reservation  : ${reservations}">
+                                <td style="text-align: center; vertical-align: middle" th:text="${reservation.reservation_id}"></td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <img th:src="@{${reservation.car.carImagePath}}" style="width: 100px; height: 70px">
+                                </td>
+                                <td style="text-align: center; vertical-align: middle" th:text="${reservation.startDate}"></td>
+                                <td style="text-align: center; vertical-align: middle" th:text="${reservation.endDate}"></td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <p th:text="${reservation.user.user_fName}"></p>&nbsp;<p th:text="${reservation.user.user_lName}"></p>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle" th:text="${reservation.fee}"></td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <a th:href="${reservation.active} ? '/admin/reservation/active/' + ${reservation.reservation_id} : '/admin/reservation/cancel/' + ${reservation.reservation_id}">
+                                            <span th:class="${reservation.active} ? 'badge bg-danger' : 'badge bg-success'"
+                                                  th:text="${reservation.active}? Cancel : Active">
+                                            </span>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    Footer
+                </div>
+                <!-- /.card-footer-->
+            </div>
             <!-- /.card -->
 
         </section>
@@ -153,6 +256,30 @@
 <script th:src="@{/plugins/fullcalendar-timegrid/main.min.js}"></script>
 <script th:src="@{/plugins/fullcalendar-interaction/main.min.js}"></script>
 <script th:src="@{/plugins/fullcalendar-bootstrap/main.min.js}"></script>
+
+<!-- DataTables -->
+<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>
 
 <script>
     $(function () {
