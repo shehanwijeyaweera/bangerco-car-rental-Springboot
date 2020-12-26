@@ -14,4 +14,13 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, L
 
     @Query("select i from ReservationModel i where i.vehical_no=?1")
     List<ReservationModel> getAllReservationForCar(Long Car_id);
+
+    @Query("select i from ReservationModel i where i.user.id=?1 order by i.reservation_id desc ")
+    List<ReservationModel> getReservationForUser(Long user_id);
+
+    @Query("select i from ReservationModel i where i.reservation_id=?1")
+    ReservationModel getReservationDetails(Long reservation_id);
+
+    @Query("SELECT count(r) from ReservationModel r where r.car.car_id = ?1 and ((r.startDate >= ?2 and r.endDate >= ?3 and r.startDate <= ?3) or (r.startDate >= ?2 and r.endDate <= ?3) or (r.startDate <= ?2 and r.endDate >= ?2 and r.endDate <= ?3)) and r.reservation_id <> ?4")
+    Long updateIfAvailable(Long car_id, LocalDateTime startDate, LocalDateTime endDate, Long reservation_id);
 }

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="Fragments/User_fragments :: html_head"/>
+
+<body class="hold-transition sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    <nav th:replace="Fragments/User_fragments :: side_dropdown"/>
+
+    <aside th:replace="Fragments/User_fragments :: side_nav"/>
+
+    <div class="content-wrapper">
+        <!--        Page Header-->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Your Reservations</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Blank Page</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <div th:if="${param.success}" class="card bg-gradient-success" id="successMessage">
+                        <div class="card-header">
+                            <h3 class="card-title">Success</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                        class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            Reservation Edit saved!
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Rent A Car Collection</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
+                                title="Collapse">
+                            <i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip"
+                                title="Remove">
+                            <i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="example1" class="table table-hover text-nowrap">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th style="text-align: center; vertical-align: middle">Car Name</th>
+                            <th style="text-align: center; vertical-align: middle">Pick Up</th>
+                            <th style="text-align: center; vertical-align: middle">Drop Off</th>
+                            <th style="text-align: center; vertical-align: middle">Fee</th>
+                            <th style="text-align: center; vertical-align: middle">Status</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="reservation : ${userReservations}">
+                            <td>
+                                <img th:src="@{${reservation.car.carImagePath}}" style="width: 100px; height: 70px">
+                            </td>
+                            <td th:text="${reservation.car.car_name}" style="text-align: center; vertical-align: middle"></td>
+                            <td th:text="${reservation.startDate}" style="text-align: center; vertical-align: middle"></td>
+                            <td th:text="${reservation.endDate}" style="text-align: center; vertical-align: middle"></td>
+                            <td th:text="'£'+${reservation.fee}+'0'" style="text-align: center; vertical-align: middle"></td>
+                            <td style="text-align: center; vertical-align: middle">
+                                <span th:class="${reservation.active} ? 'badge bg-danger' : 'badge bg-success'"
+                                      th:text="${reservation.active}? Rejected : Available"></span>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle">
+                                <a th:href="@{/user/booking/edit/{res_id}(res_id=${reservation.reservation_id})}">
+                                    <span class="fa fa-edit"></span>
+                                </a>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle">
+                                <a class="btn btn-block btn-outline-danger btn-xs">Cancel</a>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <!--                    Footer-->
+                </div>
+                <!-- /.card-footer-->
+            </div>
+            <!-- /.card -->
+
+        </section>
+
+    </div>
+
+</div>
+
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/dist/js/demo.js}"></script>
+
+</body>
+
+</html>

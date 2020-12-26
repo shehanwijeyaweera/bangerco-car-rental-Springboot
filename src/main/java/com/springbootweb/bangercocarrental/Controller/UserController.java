@@ -44,7 +44,7 @@ public class UserController {
         }
 
         User user= userRepository.findByUsername(username);
-
+        //age restricting car
         if(user.getAge()>=25){
             model.addAttribute("cars", carModelRepository.getAllActiveCars());
         }else {
@@ -57,6 +57,7 @@ public class UserController {
     public String viewCardDetails(@PathVariable("car_id")Long id, Model model){
         Optional<CarModel> carModel = carModelRepository.findById(id);
         model.addAttribute("car_details", carModel);
+        model.addAttribute("oldbookings", reservationRepository.getAllReservationForCar(id));
         return "user_viewCarDetails";
     }
 
@@ -117,6 +118,90 @@ public class UserController {
         reservationRepository.save(reservationModel);
 
         return "redirect:/user/homepage?success";
+    }
+
+    @GetMapping("/bookings/showall")
+    public String showUserAllBookings(Model model){
+        //get user details from session
+
+        String username;
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        User user = userRepository.findByUsername(username);
+
+
+        model.addAttribute("userReservations" , reservationRepository.getReservationForUser(user.getId()));
+
+        return "user_showAllBookings";
+    }
+
+    @GetMapping("/booking/edit/{reservation_id}")
+    public String showeditReservationDetails(@PathVariable(value = "reservation_id")Long res_id,Model model){
+        //get reservation current details
+        model.addAttribute("res_details", reservationRepository.getReservationDetails(res_id));
+        //car past bookings
+        ReservationModel reservationModel = reservationRepository.getReservationDetails(res_id);
+        model.addAttribute("oldbookings", reservationRepository.getAllReservationForCar(reservationModel.getVehical_no()));
+
+        Optional<CarModel> carModel = carModelRepository.findById(reservationModel.getVehical_no());
+        model.addAttribute("car_details", carModel);
+        model.addAttribute("reservation", reservationModel);
+        return "user_editReservation";
+    }
+
+    @PostMapping("/booking/edit/save")
+    public String saveEditedBooking(@ModelAttribute("reservation")ReservationModel reservationModel){
+        //1. validate given time period (this part is done in the front end)
+
+        //2. check if the dates are available for the given time period.
+        Long reservations = reservationRepository.updateIfAvailable(reservationModel.getVehical_no(), reservationModel.getStartDate(), reservationModel.getEndDate(), reservationModel.getReservation_id());
+        if(reservations > 0){
+            //error message
+            return "redirect:/user/booking/edit/"+reservationModel.getReservation_id()+"?error";
+        }
+
+        //set reservation details
+        reservationModel.getStartDate();
+        reservationModel.getEndDate();
+        reservationModel.setVehical_no(reservationModel.getVehical_no());
+        reservationModel.getFee();
+        reservationModel.setCreated_at(new Date());
+        reservationModel.setActive(FALSE);
+
+        //get user details
+
+        String username;
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        User user = userRepository.findByUsername(username);
+
+        //set user details
+
+        reservationModel.setUser(user);
+
+        //get car details
+
+        CarModel carModel = carModelRepository.getCarDetails(reservationModel.getVehical_no());
+
+        reservationModel.setCar(carModel);
+
+        //save reservation details
+
+        reservationRepository.save(reservationModel);
+
+        return "redirect:/user/bookings/showall?success";
     }
 
 }
