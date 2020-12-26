@@ -204,4 +204,45 @@ public class UserController {
         return "redirect:/user/bookings/showall?success";
     }
 
+    @GetMapping("/editUserdetails")
+    public String showUserDetails(Model model){
+        String username;
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        model.addAttribute("user_details", userRepository.findByUsername(username));
+
+        return "user_viewUserDetails";
+    }
+
+    @PostMapping("/editUserdetails/save")
+    public String saveEditedUserDetails(@ModelAttribute("user_details")User user){
+        //get current user details
+        String username;
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        User Currentuser = userRepository.findByUsername(username);
+
+        Currentuser.setUser_fName(user.getUser_fName());
+        Currentuser.setUser_lName(user.getUser_lName());
+        Currentuser.setUser_email(user.getUser_email());
+        Currentuser.setUser_phoneNo(user.getUser_phoneNo());
+        Currentuser.setUser_address(user.getUser_address());
+        //save user details
+        userRepository.save(Currentuser);
+
+        return "redirect:/user/editUserdetails?success";
+    }
+
 }
