@@ -5,16 +5,20 @@ import com.springbootweb.bangercocarrental.Model.Category;
 import com.springbootweb.bangercocarrental.Model.User;
 import com.springbootweb.bangercocarrental.Repository.CarModelRepository;
 import com.springbootweb.bangercocarrental.Repository.Car_CategoryRepository;
+import com.springbootweb.bangercocarrental.Repository.ReservationRepository;
 import com.springbootweb.bangercocarrental.Repository.UserRepository;
 import com.springbootweb.bangercocarrental.Service.CarModelService;
 import com.sun.istack.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -41,9 +45,16 @@ public class AdminController {
     @Autowired
     private CarModelRepository carModelRepository;
 
+    @Autowired
+    private ReservationRepository reservationRepository;
+
 
     @GetMapping("/homepage")
-    public String admin_homepage(){
+    public String admin_homepage(Model model){
+        //dashboard details
+        model.addAttribute("carCount", carModelRepository.findAll().size());
+        model.addAttribute("clientCount", userRepository.findAll().size());
+        model.addAttribute("reservationCount", reservationRepository.findAll().size());
         return "admin_homepage";
     }
 
@@ -191,4 +202,5 @@ public class AdminController {
         userRepository.save(user.get());
         return "redirect:/admin/users?inactivated";
     }
+
 }
