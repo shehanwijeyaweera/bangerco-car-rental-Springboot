@@ -145,6 +145,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!--                                additional addons-->
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="option1" name="option1" class="custom-control-input" value="1" th:field="*{satNav}">
+                                        <label class="custom-control-label" for="option1">SatNav &nbsp;<span><i class="fa fa-satellite"></i></span></label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="option2" name="option2" class="custom-control-input" value="1" th:field="*{babyseat}">
+                                        <label class="custom-control-label" for="option2">Baby Seats &nbsp;<span><i class="fa fa-baby-carriage"></i></span></label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="option3" name="option3" class="custom-control-input" value="1" th:field="*{chiller}">
+                                        <label class="custom-control-label" for="option3">Chiller &nbsp;<span><i class="fa fa-snowflake"></i></span></label>
+                                    </div>
+                                </div>
                                 <!--                            confirm button-->
                                 <div class="text-center">
                                     <button class="btn btn-success" id="submitButton" type="submit" disabled>Submit

@@ -53,6 +53,78 @@
                 </div>
             </div>
 
+<!--            satNav-->
+
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <div th:if="${param.satNav}" class="card bg-gradient-danger" id="successMessage">
+                        <div class="card-header">
+                            <h3 class="card-title">Error</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                        class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            SatNav is not available
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
+<!--            babyseats-->
+
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <div th:if="${param.babyseat}" class="card bg-gradient-danger" id="successMessage">
+                        <div class="card-header">
+                            <h3 class="card-title">Error</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                        class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            Baby seats are not available
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
+<!--            chiller-->
+
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <div th:if="${param.chiller}" class="card bg-gradient-danger" id="successMessage">
+                        <div class="card-header">
+                            <h3 class="card-title">Error</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                        class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            Chiller is not available
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
             <div class="card card-solid">
                 <div class="card-body">
                     <div class="row">
@@ -142,6 +214,21 @@
                                             <input th:field="*{fee}" type="text" id="calrent" class="form-control"
                                                    placeholder="Name" required autofocus="autofocus">
                                         </div>
+                                    </div>
+                                </div>
+<!--                                additional addons-->
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="option1" name="option1" class="custom-control-input" value="1" th:field="*{satNav}">
+                                        <label class="custom-control-label" for="option1">SatNav &nbsp;<span><i class="fa fa-satellite"></i></span></label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="option2" name="option2" class="custom-control-input" value="1" th:field="*{babyseat}">
+                                        <label class="custom-control-label" for="option2">Baby Seats &nbsp;<span><i class="fa fa-baby-carriage"></i></span></label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="option3" name="option3" class="custom-control-input" value="1" th:field="*{chiller}">
+                                        <label class="custom-control-label" for="option3">Chiller &nbsp;<span><i class="fa fa-snowflake"></i></span></label>
                                     </div>
                                 </div>
                                 <!--                            confirm button-->

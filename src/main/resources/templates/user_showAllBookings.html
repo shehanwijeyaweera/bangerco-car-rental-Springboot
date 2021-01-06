@@ -97,6 +97,7 @@
                             <th style="text-align: center; vertical-align: middle">Pick Up</th>
                             <th style="text-align: center; vertical-align: middle">Drop Off</th>
                             <th style="text-align: center; vertical-align: middle">Fee</th>
+                            <th style="text-align: center; vertical-align: middle">Equipment</th>
                             <th style="text-align: center; vertical-align: middle">Status</th>
                             <th></th>
                             <th></th>
@@ -111,6 +112,17 @@
                             <td th:text="${reservation.startDate}" style="text-align: center; vertical-align: middle"></td>
                             <td th:text="${reservation.endDate}" style="text-align: center; vertical-align: middle"></td>
                             <td th:text="'£'+${reservation.fee}+'0'" style="text-align: center; vertical-align: middle"></td>
+                            <td style="text-align: center; vertical-align: middle">
+                                <span th:if="${reservation.satNav}">
+                                    <i class="fa fa-satellite"></i>
+                                </span>
+                                <span th:if="${reservation.babyseat}">
+                                    <i class="fa fa-baby-carriage"></i>
+                                </span>
+                                <span th:if="${reservation.chiller}">
+                                    <i class="fa fa-snowflake"></i>
+                                </span>
+                            </td>
                             <td style="text-align: center; vertical-align: middle">
                                 <span th:class="${reservation.active} ? 'badge bg-danger' : 'badge bg-success'"
                                       th:text="${reservation.active}? Canceled : Available"></span>

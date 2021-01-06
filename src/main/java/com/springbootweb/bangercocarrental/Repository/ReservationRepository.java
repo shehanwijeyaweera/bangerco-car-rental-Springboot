@@ -41,4 +41,13 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, L
 
     @Query("select sum(i.fee) from ReservationModel i")
     Double getTotalRevenue();
+
+    @Query("select count(u) from ReservationModel u where u.satNav = TRUE and ((u.startDate >= ?1 and u.endDate >= ?2 and u.startDate <= ?2) or (u.startDate >= ?2 and u.endDate <= ?2) or (u.startDate <= ?1 and u.endDate >= ?2) or (u.startDate <= ?2 and u.endDate >= ?1 and u.endDate <= ?2)) and u.active=FALSE ")
+    Long checkIfAvailableSatNav(LocalDateTime startDate, LocalDateTime endDate);
+
+    @Query("select count(u) from ReservationModel u where u.babyseat = TRUE and ((u.startDate >= ?1 and u.endDate >= ?2 and u.startDate <= ?2) or (u.startDate >= ?2 and u.endDate <= ?2) or (u.startDate <= ?1 and u.endDate >= ?2) or (u.startDate <= ?2 and u.endDate >= ?1 and u.endDate <= ?2)) and u.active=FALSE ")
+    Long checkIfAvailableBabyseats(LocalDateTime startDate, LocalDateTime endDate);
+
+    @Query("select count(u) from ReservationModel u where u.chiller = TRUE and ((u.startDate >= ?1 and u.endDate >= ?2 and u.startDate <= ?2) or (u.startDate >= ?2 and u.endDate <= ?2) or (u.startDate <= ?1 and u.endDate >= ?2) or (u.startDate <= ?2 and u.endDate >= ?1 and u.endDate <= ?2)) and u.active=FALSE ")
+    Long checkIfAvailableChiller(LocalDateTime startDate, LocalDateTime endDate);
 }

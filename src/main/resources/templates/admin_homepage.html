@@ -197,6 +197,7 @@
                                 <th style="text-align: center; vertical-align: middle">End Date</th>
                                 <th style="text-align: center; vertical-align: middle">User</th>
                                 <th style="text-align: center; vertical-align: middle">Fee</th>
+                                <th style="text-align: center; vertical-align: middle">Equipment</th>
                                 <th style="text-align: center; vertical-align: middle">Status</th>
                             </tr>
                             </thead>
@@ -212,6 +213,17 @@
                                     <p th:text="${reservation.user.user_fName}"></p>&nbsp;<p th:text="${reservation.user.user_lName}"></p>
                                 </td>
                                 <td style="text-align: center; vertical-align: middle" th:text="${reservation.fee}"></td>
+                                <td style="text-align: center; vertical-align: middle">
+                                <span th:if="${reservation.satNav}">
+                                    <i class="fa fa-satellite"></i>
+                                </span>
+                                    <span th:if="${reservation.babyseat}">
+                                    <i class="fa fa-baby-carriage"></i>
+                                </span>
+                                    <span th:if="${reservation.chiller}">
+                                    <i class="fa fa-snowflake"></i>
+                                </span>
+                                </td>
                                 <td style="text-align: center; vertical-align: middle">
                                     <a th:href="${reservation.active} ? '/admin/reservation/active/' + ${reservation.reservation_id} : '/admin/reservation/cancel/' + ${reservation.reservation_id}">
                                             <span th:class="${reservation.active} ? 'badge bg-danger' : 'badge bg-success'"

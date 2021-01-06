@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 @Controller
 @RequestMapping("/user/")
@@ -74,6 +75,7 @@ public class UserController {
     @PostMapping("car/booking/save/{car_id}")
     public String saveBooking(@ModelAttribute("reservation")ReservationModel reservationModel,@PathVariable("car_id")Long id){
         //1. validate given time period (this part is done in the front end)
+        String errorMessage = null;
 
         //2. check if the dates are available for the given time period.
         Long reservations = reservationRepository.checkIfAvailable(id, reservationModel.getStartDate(), reservationModel.getEndDate());
@@ -82,6 +84,37 @@ public class UserController {
             return "redirect:/user/car/showbookingpage/"+id+"?error";
         }
 
+        //check if satNav available
+        if(reservationModel.isSatNav()==TRUE) {
+            reservations = reservationRepository.checkIfAvailableSatNav(reservationModel.getStartDate(), reservationModel.getEndDate());
+            if (reservations > 0) {
+                //error message
+                errorMessage = "?satNav";
+            }
+        }
+
+        //check if babySeat available
+        if(reservationModel.isBabyseat()==TRUE) {
+            reservations = reservationRepository.checkIfAvailableBabyseats(reservationModel.getStartDate(), reservationModel.getEndDate());
+            if (reservations > 0) {
+                //error message
+                errorMessage = "?babyseat";
+            }
+        }
+
+        //check if chiller available
+        if(reservationModel.isChiller()==TRUE) {
+            reservations = reservationRepository.checkIfAvailableChiller(reservationModel.getStartDate(), reservationModel.getEndDate());
+            if (reservations > 0) {
+                //error message
+                errorMessage = "?chiller";
+            }
+        }
+
+       if(errorMessage!=null){
+           return "redirect:/user/car/showbookingpage/"+id+errorMessage;
+       }
+
         //set reservation details
         reservationModel.getStartDate();
         reservationModel.getEndDate();
@@ -89,6 +122,8 @@ public class UserController {
         reservationModel.getFee();
         reservationModel.setCreated_at(new Date());
         reservationModel.setActive(FALSE);
+
+
 
         //get user details
 
@@ -173,6 +208,8 @@ public class UserController {
         reservationModel.getFee();
         reservationModel.setCreated_at(new Date());
         reservationModel.setActive(FALSE);
+        reservationModel.setLateReturn(FALSE);
+        reservationModel.setLateReturnReq(FALSE);
 
         //get user details
 
