@@ -17,8 +17,9 @@ public class UserRegistrationDto {
     private String document2;
     private String userRole;
     private boolean enabled;
+    private String NIC;
 
-    public UserRegistrationDto(String username, String password, String user_fName, String user_lName, String user_email, Date birthday, int user_phoneNo, String user_address, String document1, String document2, String userRole, boolean enabled) {
+    public UserRegistrationDto(String username, String password, String user_fName, String user_lName, String user_email, Date birthday, int user_phoneNo, String user_address, String document1, String document2, String userRole, boolean enabled, String NIC) {
         this.username = username;
         this.password = password;
         this.user_fName = user_fName;
@@ -31,9 +32,18 @@ public class UserRegistrationDto {
         this.document2 = document2;
         this.userRole = userRole;
         this.enabled = enabled;
+        this.NIC = NIC;
     }
 
     public UserRegistrationDto() {
+    }
+
+    public String getNIC() {
+        return NIC;
+    }
+
+    public void setNIC(String NIC) {
+        this.NIC = NIC;
     }
 
     public String getUsername() {

@@ -4,15 +4,22 @@ import com.springbootweb.bangercocarrental.Model.CarModel;
 import com.springbootweb.bangercocarrental.Model.ReservationModel;
 import com.springbootweb.bangercocarrental.Model.User;
 import com.springbootweb.bangercocarrental.Repository.CarModelRepository;
+import com.springbootweb.bangercocarrental.Repository.DmvModelRepository;
 import com.springbootweb.bangercocarrental.Repository.ReservationRepository;
 import com.springbootweb.bangercocarrental.Repository.UserRepository;
+import com.springbootweb.bangercocarrental.web.dto.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
@@ -32,6 +39,12 @@ public class UserController {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private DmvModelRepository dmvModelRepository;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @GetMapping("/homepage")
     public String user_homepage(Model model){
@@ -73,11 +86,36 @@ public class UserController {
     }
 
     @PostMapping("car/booking/save/{car_id}")
-    public String saveBooking(@ModelAttribute("reservation")ReservationModel reservationModel,@PathVariable("car_id")Long id){
+    public String saveBooking(@ModelAttribute("reservation")ReservationModel reservationModel,@PathVariable("car_id")Long id) throws UnsupportedEncodingException, MessagingException {
         //1. validate given time period (this part is done in the front end)
+
+        //get user details
+
+        String username;
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        User user = userRepository.findByUsername(username);
+
+        //2.Check if users NIC in DMV files
+        Long userExist = dmvModelRepository.checkIfExist(user.getNIC());
+        if(userExist==1){
+            //deactivate account
+            user.setEnabled(TRUE);
+            userRepository.save(user);
+            //send mail
+            sendDMVEmail(user);
+            return "redirect:/user/car/showbookingpage/"+id+"?errorDMV";
+        }
+
         String errorMessage = null;
 
-        //2. check if the dates are available for the given time period.
+        //3. check if the dates are available for the given time period.
         Long reservations = reservationRepository.checkIfAvailable(id, reservationModel.getStartDate(), reservationModel.getEndDate());
         if(reservations > 0){
             //error message
@@ -124,20 +162,6 @@ public class UserController {
         reservationModel.setActive(FALSE);
 
 
-
-        //get user details
-
-        String username;
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-
-        User user = userRepository.findByUsername(username);
-
         //set user details
 
         reservationModel.setUser(user);
@@ -153,6 +177,27 @@ public class UserController {
         reservationRepository.save(reservationModel);
 
         return "redirect:/user/homepage?success";
+    }
+
+    private void sendDMVEmail(User userRegistrationDto) throws MessagingException, UnsupportedEncodingException {
+        String subject = "lost or stolen NIC Made A reservation in our System";
+        String senderName = "Banger & Co";
+        String mailContent = "<h2>User details</h2><br>";
+        mailContent += "<p>First Name : "+userRegistrationDto.getUser_fName()+"</p><br>";
+        mailContent += "<p>Last Name : "+userRegistrationDto.getUser_lName()+"</p><br>";
+        mailContent += "<p>Address : "+userRegistrationDto.getUser_address()+"</p><br>";
+        mailContent += "<p>NIC : "+userRegistrationDto.getNIC()+"</p><br>";
+
+        MimeMessage message =mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom("onlinebookstorelk@gmail.com", senderName);
+        helper.setTo("ponikax637@nonicamy.com");
+        helper.setSubject(subject);
+
+        helper.setText(mailContent, true);
+
+        mailSender.send(message);
     }
 
     @GetMapping("/bookings/showall")

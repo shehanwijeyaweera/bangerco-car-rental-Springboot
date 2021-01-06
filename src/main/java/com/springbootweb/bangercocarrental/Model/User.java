@@ -34,6 +34,7 @@ public class User {
     private String document1;
     private String document2;
     private boolean enabled;
+    private String NIC;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -48,7 +49,7 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<ReservationModel> reservations = new ArrayList<>();
 
-    public User(String username, String password, String user_fName, String user_lName, String user_email, Date birthday, int user_phoneNo, String user_address, String document1, String document2, boolean enabled, Collection<Role> userRole) {
+    public User(String username, String password, String user_fName, String user_lName, String user_email, Date birthday, int user_phoneNo, String user_address, String document1, String document2, boolean enabled, String NIC, Collection<Role> userRole) {
         this.username = username;
         this.password = password;
         this.user_fName = user_fName;
@@ -60,10 +61,19 @@ public class User {
         this.document1 = document1;
         this.document2 = document2;
         this.enabled = enabled;
+        this.NIC = NIC;
         this.userRole = userRole;
     }
 
     public User() {
+    }
+
+    public String getNIC() {
+        return NIC;
+    }
+
+    public void setNIC(String NIC) {
+        this.NIC = NIC;
     }
 
     public Long getId() {
