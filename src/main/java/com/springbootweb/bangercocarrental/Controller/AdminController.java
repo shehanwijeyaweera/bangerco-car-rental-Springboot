@@ -2,6 +2,7 @@ package com.springbootweb.bangercocarrental.Controller;
 
 import com.springbootweb.bangercocarrental.Model.CarModel;
 import com.springbootweb.bangercocarrental.Model.Category;
+import com.springbootweb.bangercocarrental.Model.ReservationModel;
 import com.springbootweb.bangercocarrental.Model.User;
 import com.springbootweb.bangercocarrental.Repository.CarModelRepository;
 import com.springbootweb.bangercocarrental.Repository.Car_CategoryRepository;
@@ -215,5 +216,41 @@ public class AdminController {
         reservationRepository.ActiveReservation(id);
         return "redirect:/admin/homepage?active";
     }
+
+    @GetMapping("/reservation/getAllRequestedReservations")
+    public String viewLateRequest(Model model){
+        model.addAttribute("reservations", reservationRepository.getLateRequestedReservations());
+        return "admin_lateRequests";
+    }
+
+    @GetMapping("/lateReturnReqAccept/{res_id}")
+    public String lateReturnAccept(@PathVariable("res_id")Long reservationID){
+        //get reservation
+        Optional<ReservationModel> reservationModel = reservationRepository.findById(reservationID);
+
+        //update
+        reservationModel.get().setLateReturn(TRUE);
+
+        //save
+        reservationRepository.save(reservationModel.get());
+
+        return "redirect:/admin/reservation/getAllRequestedReservations?accepted";
+    }
+
+    @GetMapping("/lateReturnReqReject/{res_id}")
+    public String lateReturnReject(@PathVariable("res_id")Long reservationID){
+        //get reservation
+        Optional<ReservationModel> reservationModel = reservationRepository.findById(reservationID);
+
+        //update
+        reservationModel.get().setLateReturn(TRUE);
+        reservationModel.get().setLateReturnReq(FALSE);
+        //save
+        reservationRepository.save(reservationModel.get());
+
+        return "redirect:/admin/reservation/getAllRequestedReservations?rejected";
+    }
+
+
 
 }

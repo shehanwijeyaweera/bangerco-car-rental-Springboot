@@ -288,4 +288,37 @@ public class UserController {
         return "redirect:/user/bookings/showall?cancel";
     }
 
+    @GetMapping("/requestLateReturn/{reservation_id}")
+    public String requestLateReturn(@PathVariable(value = "reservation_id")Long reservationID){
+
+        //get current user details
+        String username;
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        User Currentuser = userRepository.findByUsername(username);
+
+        //check if client has previously rented vehicles
+        Long reservations = reservationRepository.getPreviousReservationCount(Currentuser.getId());
+        if(reservations == 1){
+            return "redirect:/user/bookings/showall?latereturnError";
+        }
+
+        //get the reservation
+        Optional<ReservationModel> reservationModel = reservationRepository.findById(reservationID);
+
+        //update value
+        reservationModel.get().setLateReturnReq(TRUE);
+
+        //save
+        reservationRepository.save(reservationModel.get());
+
+        return "redirect:/user/bookings/showall?latereturnSuccess";
+    }
+
 }

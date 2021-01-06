@@ -73,6 +73,48 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <div th:if="${param.latereturnError}" class="card bg-gradient-danger" id="successMessage">
+                        <div class="card-header">
+                            <h3 class="card-title">Info</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                        class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            You are Not eligible for late returns
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 offset-3">
+                    <div th:if="${param.latereturnSuccess}" class="card bg-gradient-success" id="successMessage">
+                        <div class="card-header">
+                            <h3 class="card-title">Info</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i
+                                        class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            Requested Late return
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
 
             <!-- Default box -->
             <div class="card">
@@ -101,6 +143,7 @@
                             <th style="text-align: center; vertical-align: middle">Status</th>
                             <th></th>
                             <th></th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -108,10 +151,14 @@
                             <td>
                                 <img th:src="@{${reservation.car.carImagePath}}" style="width: 100px; height: 70px">
                             </td>
-                            <td th:text="${reservation.car.car_name}" style="text-align: center; vertical-align: middle"></td>
-                            <td th:text="${reservation.startDate}" style="text-align: center; vertical-align: middle"></td>
-                            <td th:text="${reservation.endDate}" style="text-align: center; vertical-align: middle"></td>
-                            <td th:text="'£'+${reservation.fee}+'0'" style="text-align: center; vertical-align: middle"></td>
+                            <td th:text="${reservation.car.car_name}"
+                                style="text-align: center; vertical-align: middle"></td>
+                            <td th:text="${reservation.startDate}"
+                                style="text-align: center; vertical-align: middle"></td>
+                            <td th:text="${reservation.endDate}"
+                                style="text-align: center; vertical-align: middle"></td>
+                            <td th:text="'£'+${reservation.fee}+'0'"
+                                style="text-align: center; vertical-align: middle"></td>
                             <td style="text-align: center; vertical-align: middle">
                                 <span th:if="${reservation.satNav}">
                                     <i class="fa fa-satellite"></i>
@@ -128,12 +175,28 @@
                                       th:text="${reservation.active}? Canceled : Available"></span>
                             </td>
                             <td style="text-align: center; vertical-align: middle">
-                                <a th:if="${!reservation.active}" th:href="@{/user/booking/edit/{res_id}(res_id=${reservation.reservation_id})}">
+                                <a th:if="${!reservation.active}"
+                                   th:href="@{/user/booking/edit/{res_id}(res_id=${reservation.reservation_id})}">
                                     <span class="fa fa-edit"></span>
                                 </a>
                             </td>
                             <td style="text-align: center; vertical-align: middle">
-                                <a th:if="${!reservation.active}" th:href="@{/user/cancelRes/{id}(id=${reservation.reservation_id})}" class="btn btn-block btn-outline-danger btn-xs">Cancel</a>
+                                <a th:if="${!reservation.active}"
+                                   th:href="@{/user/cancelRes/{id}(id=${reservation.reservation_id})}"
+                                   class="btn btn-block btn-outline-danger btn-xs">Cancel</a>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle">
+                                <span th:if="${!reservation.active}">
+                                <a th:if="${!reservation.lateReturnReq} and ${!reservation.lateReturn}"
+                                   th:href="@{/user/requestLateReturn/{id}(id=${reservation.reservation_id})}"
+                                   class="btn btn-block btn-outline-primary btn-xs">Late Return</a>
+                                <a th:if="${reservation.lateReturnReq} and ${reservation.lateReturn}"
+                                   class="btn btn-block btn-outline-success btn-xs">Late Return Approved</a>
+                                    <a th:if="${reservation.lateReturnReq} and ${!reservation.lateReturn}"
+                                       class="btn btn-block btn-outline-secondary btn-xs">Late Return Pending</a>
+                                    <a th:if="${!reservation.lateReturnReq} and ${reservation.lateReturn}"
+                                       class="btn btn-block btn-outline-danger btn-xs">Late Return Rejected</a>
+                                </span>
                             </td>
                         </tr>
                         </tfoot>
