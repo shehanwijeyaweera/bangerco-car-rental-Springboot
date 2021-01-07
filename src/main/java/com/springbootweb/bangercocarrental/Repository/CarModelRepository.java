@@ -23,4 +23,10 @@ public interface CarModelRepository extends JpaRepository<CarModel, Long> {
 
     @Query("select i from CarModel i where i.car_id=?1")
     CarModel getCarDetails(Long car_id);
+
+    @Query("select i from CarModel  i where i.car_name=?1")
+    CarModel findByCarName(String carName);
+
+    @Query("select count(i) from CarModel i where i.car_name=?1")
+    int checkIfNameExist(String carName);
 }
