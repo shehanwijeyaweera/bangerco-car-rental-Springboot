@@ -22,6 +22,7 @@ public class CarModel {
     private String description;
     private int yearofmade;
     private String transmission;
+    private double competitorRental;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "carModel_category",
@@ -36,6 +37,14 @@ public class CarModel {
     private boolean enabled;
 
     public CarModel() {
+    }
+
+    public double getCompetitorRental() {
+        return competitorRental;
+    }
+
+    public void setCompetitorRental(double competitorRental) {
+        this.competitorRental = competitorRental;
     }
 
     public CarModel(String car_name, String type, String car_image, String car_plate, double rental_price, String fuelType, String description, int yearofmade, String transmission, Set<Category> category, boolean enabled) {

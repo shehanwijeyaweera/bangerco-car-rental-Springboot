@@ -95,6 +95,7 @@
                                             <th>Transmission</th>
                                             <th>Fuel</th>
                                             <th>Rental Price</th>
+                                            <th>Competitor Price</th>
                                             <th>Type</th>
                                             <th>YOM</th>
                                             <th>Status</th>
@@ -116,6 +117,7 @@
                                             <td th:text="${car.transmission}"></td>
                                             <td th:text="${car.fuelType}"></td>
                                             <td th:text="${car.rental_price}"></td>
+                                            <td th:text="${car.competitorRental}"></td>
                                             <td>
                                                 <th:block th:each="category : ${car.category}">
                                                     <img th:src="@{${category.logoImagePath}}"

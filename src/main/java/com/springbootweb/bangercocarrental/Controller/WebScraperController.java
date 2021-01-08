@@ -21,7 +21,7 @@ public class WebScraperController {
     @Autowired
     private CarModelRepository carModelRepository;
 
-    @Scheduled(initialDelay = 3000L, fixedDelay = 10000L)
+    //@Scheduled(initialDelay = 3000L, fixedDelay = 10000L)
     public void scraperTask() throws IOException {
         Document doc = Jsoup.connect("https://www.amerirentacar.com/self-drive-rates-in-sri-lanka/").timeout(6000).get();
 
@@ -45,7 +45,7 @@ public class WebScraperController {
                         //converting USD to pounds per day
                         Double priceDayPounds = priceWeek * 0.1057142857142857;
                         //updating car rent
-                        carModel.setRental_price(round(priceDayPounds, 2));
+                        carModel.setCompetitorRental(round(priceDayPounds, 2));
                         //save car Model
                         carModelRepository.save(carModel);
                         System.out.println("Car Name : "+carName+" ,Changed Rent For Per Day(F): " + round(priceDayPounds, 2));
