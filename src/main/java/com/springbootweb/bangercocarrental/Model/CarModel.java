@@ -1,5 +1,7 @@
 package com.springbootweb.bangercocarrental.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,13 +26,15 @@ public class CarModel {
     private String transmission;
     private double competitorRental;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "carModel_category",
         joinColumns = { @JoinColumn(name = "car_id") },
         inverseJoinColumns = { @JoinColumn(name = "category_id") }
     )
     private Set<Category> category = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "car")
     private List<ReservationModel> reservations = new ArrayList<>();
 

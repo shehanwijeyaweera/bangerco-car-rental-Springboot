@@ -1,6 +1,7 @@
 package com.springbootweb.bangercocarrental.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,11 +20,13 @@ public class ReservationModel {
 
     private Long vehical_no;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "car_id")
     private CarModel car;
 
@@ -41,11 +44,12 @@ public class ReservationModel {
     private boolean satNav;
     private boolean babyseat;
     private boolean chiller;
+    private String pickedUp;
 
     public ReservationModel() {
     }
 
-    public ReservationModel(Long vehical_no, User user, CarModel car, LocalDateTime startDate, LocalDateTime endDate, Date created_at, double fee, boolean active, boolean lateReturn, boolean lateReturnReq, boolean satNav, boolean babyseat, boolean chiller) {
+    public ReservationModel(Long vehical_no, User user, CarModel car, LocalDateTime startDate, LocalDateTime endDate, Date created_at, double fee, boolean active, boolean lateReturn, boolean lateReturnReq, boolean satNav, boolean babyseat, boolean chiller, String pickedUp) {
         this.vehical_no = vehical_no;
         this.user = user;
         this.car = car;
@@ -59,6 +63,7 @@ public class ReservationModel {
         this.satNav = satNav;
         this.babyseat = babyseat;
         this.chiller = chiller;
+        this.pickedUp = pickedUp;
     }
 
     public boolean isSatNav() {
@@ -171,5 +176,13 @@ public class ReservationModel {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getPickedUp() {
+        return pickedUp;
+    }
+
+    public void setPickedUp(String pickedUp) {
+        this.pickedUp = pickedUp;
     }
 }

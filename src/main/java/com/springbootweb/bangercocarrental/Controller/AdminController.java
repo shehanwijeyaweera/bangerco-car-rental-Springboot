@@ -251,6 +251,31 @@ public class AdminController {
         return "redirect:/admin/reservation/getAllRequestedReservations?rejected";
     }
 
+    @GetMapping("/reservation/markedAsPicked/{res_id}")
+    public String MarkAsPicked(@PathVariable("res_id")Long reservationID){
+        Optional<ReservationModel> reservationModel = reservationRepository.findById(reservationID);
 
+        //update
+        reservationModel.get().setPickedUp("Picked");
+
+        //save
+        reservationRepository.save(reservationModel.get());
+
+        return "redirect:/admin/homepage";
+    }
+
+
+    @GetMapping("/reservation/markedAsReturned/{res_id}")
+    public String MarkAsReturned(@PathVariable("res_id")Long reservationID){
+        Optional<ReservationModel> reservationModel = reservationRepository.findById(reservationID);
+
+        //update
+        reservationModel.get().setPickedUp("Returned");
+
+        //save
+        reservationRepository.save(reservationModel.get());
+
+        return "redirect:/admin/homepage";
+    }
 
 }

@@ -22,7 +22,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Admin Homepage Page</h1>
+                        <h1>Admin Homepage</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -199,6 +199,7 @@
                                 <th style="text-align: center; vertical-align: middle">Fee</th>
                                 <th style="text-align: center; vertical-align: middle">Equipment</th>
                                 <th style="text-align: center; vertical-align: middle">Status</th>
+                                <th style="text-align: center; vertical-align: middle">Picked status</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -231,6 +232,17 @@
                                             </span>
                                     </a>
                                 </td>
+                                <th style="text-align: center; vertical-align: middle" th:switch="${reservation.pickedUp}">
+                                    <a th:case="'Picked'" th:href="'/admin/reservation/markedAsReturned/' + ${reservation.reservation_id}">
+                                            <span th:class="'badge bg-success'"> Picked </span>
+                                    </a>
+                                    <a th:case="'Returned'" >
+                                        <span th:class="'badge bg-info'"> Returned</span>
+                                    </a>
+                                    <a th:case="*" th:href="'/admin/reservation/markedAsPicked/' + ${reservation.reservation_id}">
+                                        <span th:class="'badge bg-danger'"> Not Picked </span>
+                                    </a>
+                                </th>
                             </tr>
                             </tfoot>
                         </table>
@@ -325,53 +337,24 @@
             },
             'themeSystem': 'bootstrap',
             //Random default events
-            events    : [
-                {
-                    title          : 'All Day Event',
-                    start          : new Date(y, m, 1),
-                    backgroundColor: '#f56954', //red
-                    borderColor    : '#f56954', //red
-                    allDay         : true
-                },
-                {
-                    title          : 'Long Event',
-                    start          : new Date(y, m, d - 5),
-                    end            : new Date(y, m, d - 2),
-                    backgroundColor: '#f39c12', //yellow
-                    borderColor    : '#f39c12' //yellow
-                },
-                {
-                    title          : 'Meeting',
-                    start          : new Date(y, m, d, 10, 30),
-                    allDay         : false,
-                    backgroundColor: '#0073b7', //Blue
-                    borderColor    : '#0073b7' //Blue
-                },
-                {
-                    title          : 'Lunch',
-                    start          : new Date(y, m, d, 12, 0),
-                    end            : new Date(y, m, d, 14, 0),
-                    allDay         : false,
-                    backgroundColor: '#00c0ef', //Info (aqua)
-                    borderColor    : '#00c0ef' //Info (aqua)
-                },
-                {
-                    title          : 'Birthday Party',
-                    start          : new Date(y, m, d + 1, 19, 0),
-                    end            : new Date(y, m, d + 1, 22, 30),
-                    allDay         : false,
-                    backgroundColor: '#00a65a', //Success (green)
-                    borderColor    : '#00a65a' //Success (green)
-                },
-                {
-                    title          : 'Click for Google',
-                    start          : new Date(y, m, 28),
-                    end            : new Date(y, m, 29),
-                    url            : 'http://google.com/',
-                    backgroundColor: '#3c8dbc', //Primary (light-blue)
-                    borderColor    : '#3c8dbc' //Primary (light-blue)
-                }
-            ],
+            events    : function() {
+                $.ajax({
+                    url: 'http://localhost:8080/calendar/reservations',
+                    //data: {
+                    // data if you are passing
+                    //},
+                    success: function(data) {
+                        var events = [];
+                        $.each(data, function(index) {
+                            events.push({
+                                title: data[index].reservation_id,
+                                start: data[index].startDate,
+                                end:   data[index].endDate,
+                            });
+                        });
+                    }
+                });
+            },
             drop      : function(info) {
                 // is the "remove after drop" checkbox checked?
                 if (checkbox.checked) {
