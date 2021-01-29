@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="Fragments/User_fragments :: html_head" />
+<head th:replace="Fragments/User_fragments :: html_head"/>
 
 <body class="hold-transition sidebar-mini">
 <!-- fullCalendar -->
@@ -12,9 +12,9 @@
 <!-- Site wrapper -->
 <div class="wrapper">
 
-    <nav th:replace="Fragments/User_fragments :: side_dropdown" />
+    <nav th:replace="Fragments/User_fragments :: side_dropdown"/>
 
-    <aside th:replace="Fragments/Admin_fragments :: side_nav_admin" />
+    <aside th:replace="Fragments/Admin_fragments :: side_nav_admin"/>
 
     <div class="content-wrapper">
         <!--        Page Header-->
@@ -86,9 +86,11 @@
                     <h3 class="card-title">Dashboard</h3>
 
                     <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
+                                title="Collapse">
                             <i class="fas fa-minus"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip"
+                                title="Remove">
                             <i class="fas fa-times"></i></button>
                     </div>
                 </div>
@@ -108,7 +110,8 @@
                                             <div class="icon">
                                                 <i class="fa fa-car"></i>
                                             </div>
-                                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                            <a href="#" class="small-box-footer">More info <i
+                                                    class="fas fa-arrow-circle-right"></i></a>
                                         </div>
 
                                         <div class="small-box bg-success">
@@ -120,7 +123,8 @@
                                             <div class="icon">
                                                 <i class="fa fa-user"></i>
                                             </div>
-                                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                            <a href="#" class="small-box-footer">More info <i
+                                                    class="fas fa-arrow-circle-right"></i></a>
                                         </div>
 
                                         <div class="small-box bg-warning">
@@ -132,7 +136,8 @@
                                             <div class="icon">
                                                 <i class="fa fa-asterisk"></i>
                                             </div>
-                                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                            <a href="#" class="small-box-footer">More info <i
+                                                    class="fas fa-arrow-circle-right"></i></a>
                                         </div>
 
                                         <div class="small-box bg-danger">
@@ -144,7 +149,8 @@
                                             <div class="icon">
                                                 <i class="ion ion-pie-graph"></i>
                                             </div>
-                                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                            <a href="#" class="small-box-footer">More info <i
+                                                    class="fas fa-arrow-circle-right"></i></a>
                                         </div>
 
                                     </div>
@@ -178,9 +184,11 @@
                     <h3 class="card-title">Reservations</h3>
 
                     <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
+                                title="Collapse">
                             <i class="fas fa-minus"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip"
+                                title="Remove">
                             <i class="fas fa-times"></i></button>
                     </div>
                 </div>
@@ -204,16 +212,21 @@
                             </thead>
                             <tbody>
                             <tr th:each="reservation  : ${reservations}">
-                                <td style="text-align: center; vertical-align: middle" th:text="${reservation.reservation_id}"></td>
+                                <td style="text-align: center; vertical-align: middle"
+                                    th:text="${reservation.reservation_id}"></td>
                                 <td style="text-align: center; vertical-align: middle">
                                     <img th:src="@{${reservation.car.carImagePath}}" style="width: 100px; height: 70px">
                                 </td>
-                                <td style="text-align: center; vertical-align: middle" th:text="${reservation.startDate}"></td>
-                                <td style="text-align: center; vertical-align: middle" th:text="${reservation.endDate}"></td>
+                                <td style="text-align: center; vertical-align: middle"
+                                    th:text="${reservation.startDate}"></td>
+                                <td style="text-align: center; vertical-align: middle"
+                                    th:text="${reservation.endDate}"></td>
                                 <td style="text-align: center; vertical-align: middle">
-                                    <p th:text="${reservation.user.user_fName}"></p>&nbsp;<p th:text="${reservation.user.user_lName}"></p>
+                                    <p th:text="${reservation.user.user_fName}"></p>&nbsp;<p
+                                        th:text="${reservation.user.user_lName}"></p>
                                 </td>
-                                <td style="text-align: center; vertical-align: middle" th:text="${reservation.fee}"></td>
+                                <td style="text-align: center; vertical-align: middle"
+                                    th:text="${reservation.fee}"></td>
                                 <td style="text-align: center; vertical-align: middle">
                                 <span th:if="${reservation.satNav}">
                                     <i class="fa fa-satellite"></i>
@@ -232,16 +245,21 @@
                                             </span>
                                     </a>
                                 </td>
-                                <th style="text-align: center; vertical-align: middle" th:switch="${reservation.pickedUp}">
-                                    <a th:case="'Picked'" th:href="'/admin/reservation/markedAsReturned/' + ${reservation.reservation_id}">
+                                <th style="text-align: center; vertical-align: middle"
+                                    th:switch="${reservation.pickedUp}">
+                                    <span th:if="${!reservation.active}">
+                                    <a th:case="'Picked'"
+                                       th:href="'/admin/reservation/markedAsReturned/' + ${reservation.reservation_id}">
                                             <span th:class="'badge bg-success'"> Picked </span>
                                     </a>
-                                    <a th:case="'Returned'" >
+                                    <a th:case="'Returned'">
                                         <span th:class="'badge bg-info'"> Returned</span>
                                     </a>
-                                    <a th:case="*" th:href="'/admin/reservation/markedAsPicked/' + ${reservation.reservation_id}">
+                                    <a th:case="*"
+                                       th:href="'/admin/reservation/markedAsPicked/' + ${reservation.reservation_id}">
                                         <span th:class="'badge bg-danger'"> Not Picked </span>
                                     </a>
+                                    </span>
                                 </th>
                             </tr>
                             </tfoot>
@@ -315,9 +333,9 @@
          -----------------------------------------------------------------*/
         //Date for the calendar events (dummy data)
         var date = new Date()
-        var d    = date.getDate(),
-            m    = date.getMonth(),
-            y    = date.getFullYear()
+        var d = date.getDate(),
+            m = date.getMonth(),
+            y = date.getFullYear()
 
         var Calendar = FullCalendar.Calendar;
 
@@ -329,33 +347,33 @@
 
 
         var calendar = new Calendar(calendarEl, {
-            plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid' ],
-            header    : {
-                left  : 'prev,next today',
+            plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
+            header: {
+                left: 'prev,next today',
                 center: 'title',
-                right : 'dayGridMonth,timeGridWeek,timeGridDay'
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             'themeSystem': 'bootstrap',
             //Random default events
-            events    : function() {
+            events: function () {
                 $.ajax({
                     url: 'http://localhost:8080/calendar/reservations',
                     //data: {
                     // data if you are passing
                     //},
-                    success: function(data) {
+                    success: function (data) {
                         var events = [];
-                        $.each(data, function(index) {
+                        $.each(data, function (index) {
                             events.push({
                                 title: data[index].reservation_id,
                                 start: data[index].startDate,
-                                end:   data[index].endDate,
+                                end: data[index].endDate,
                             });
                         });
                     }
                 });
             },
-            drop      : function(info) {
+            drop: function (info) {
                 // is the "remove after drop" checkbox checked?
                 if (checkbox.checked) {
                     // if so, remove the element from the "Draggable Events" list

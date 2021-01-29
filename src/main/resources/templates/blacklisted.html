@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Blacklisted</title>
+    <style>
+        .content {
+            max-width: 500px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="content"> You have been blacklisted from renting vehicles with us!</h1>
+    <a class="content" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
+</body>
+</html>

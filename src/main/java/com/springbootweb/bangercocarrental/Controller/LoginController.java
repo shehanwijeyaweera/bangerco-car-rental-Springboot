@@ -42,7 +42,7 @@ public class LoginController{
             User user= userRepository.findByUsername(username);
 
             if(user.isEnabled() == true) {
-                return "redirect:/blacklisted";
+                return "blacklisted";
             }
             else {
                 return "redirect:/user/homepage";
